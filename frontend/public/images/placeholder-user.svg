@@ -1,0 +1,6 @@
+<svg width="200" height="200" viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg">
+  <rect width="200" height="200" fill="#f3f4f6"/>
+  <circle cx="100" cy="80" r="40" fill="#d1d5db"/>
+  <rect x="40" y="140" width="120" height="40" fill="#d1d5db" rx="20"/>
+  <text x="100" y="190" text-anchor="middle" fill="#9ca3af" font-family="Arial, sans-serif" font-size="12">Utilisateur</text>
+</svg> 

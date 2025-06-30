@@ -1,0 +1,32 @@
+@import "tailwindcss";
+
+:root {
+  --primary-green: #2d5a27;
+  --secondary-green: #4a7c59;
+  --accent-gold: #d4af37;
+  --background: #ffffff;
+  --foreground: #171717;
+}
+
+body {
+  background: var(--background);
+  color: var(--foreground);
+  font-family: system-ui, -apple-system, sans-serif;
+}
+
+@layer utilities {
+  .animate-pingonce {
+    animation: pingonce 0.4s cubic-bezier(0.4, 0, 0.6, 1);
+  }
+  @keyframes pingonce {
+    0% {
+      transform: scale(1);
+    }
+    50% {
+      transform: scale(1.3);
+    }
+    100% {
+      transform: scale(1);
+    }
+  }
+}
