@@ -1,6 +1,6 @@
 # 🚀 BEYANA - Plateforme E-commerce Bio Premium
 
-## 🆕 Dernières évolutions (Décembre 2024)
+## 🆕 Dernières évolutions
 
 - **Tunnel de commande robuste** : Stripe intégré, webhooks fonctionnels, mapping sécurisé des statuts ✅
 - **Compte client opérationnel** : Profil, commandes, wishlist, paramètres avec changement de mot de passe ✅
@@ -8,7 +8,7 @@
 - **Robustesse** : Gestion des tokens, synchronisation frontend/backend, logs nettoyés ✅
 - **Tests** : 149/149 tests backend passent, couverture complète des fonctionnalités critiques ✅
 
-## 🆕 Changements récents (Juin 2025)
+## 🆕 Changements récents
 
 - Upload d'avatar Cloudinary avec mise à jour instantanée de la photo de profil (sans rechargement)
 - Notifications toast globales avec react-hot-toast (compatible React 19)
@@ -512,9 +512,9 @@ Ce projet est sous licence MIT. Voir le fichier [LICENSE](LICENSE) pour plus de 
 
 ---
 
-## 📝 **CHANGELOG**
+## �� **CHANGELOG**
 
-### **Décembre 2024**
+###
 
 - ✅ **Tunnel de commande robuste** : Stripe intégré, webhooks fonctionnels
 - ✅ **Compte client opérationnel** : Profil, commandes, wishlist, paramètres
@@ -522,14 +522,14 @@ Ce projet est sous licence MIT. Voir le fichier [LICENSE](LICENSE) pour plus de 
 - ✅ **Robustesse** : Gestion des tokens, synchronisation frontend/backend
 - ✅ **Tests** : 149/149 tests backend passent
 
-### **Juin 2024**
+###
 
 - ✅ **Refactoring complet** du frontend
 - ✅ **Documentation** mise à jour
 - ✅ **Tests backend** : 149/149 passent
 - ✅ **Pages principales** terminées et testées
 
-### **Juin 2025**
+###
 
 - Upload avatar instantané (Cloudinary + toast)
 - Notification toast globales avec react-hot-toast (compatible React 19)
@@ -539,8 +539,8 @@ Ce projet est sous licence MIT. Voir le fichier [LICENSE](LICENSE) pour plus de 
 
 ---
 
-**Dernière mise à jour :** Décembre 2024  
-**Version :** 1.0.0  
+**Dernière mise à jour :**
+**Version :**
 **Statut :** 95% Frontend Terminé, Prêt pour Admin Dashboard
 
 ## Présentation
@@ -597,15 +597,7 @@ BEYANA est une plateforme e-commerce moderne (Next.js/Node.js/MongoDB) avec gest
 
 ---
 
-_Dernière mise à jour : 2024-06_
-
-### Fonctionnalités terminées
-
-- Upload avatar instantané (Cloudinary + toast)
-
-### Tests
-
-- Testé : upload avatar, notification toast, UX instantanée
+_Dernière mise à jour :_
 
 # BEYANA - Dashboard & Plateforme
 
