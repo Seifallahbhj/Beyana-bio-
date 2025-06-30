@@ -504,15 +504,7 @@ Ce projet est sous licence MIT. Voir le fichier [LICENSE](LICENSE) pour plus de 
 
 ---
 
-## 👥 **ÉQUIPE**
-
-- **Développeur Full-Stack :** Équipe BEYANA
-- **Design :** Équipe BEYANA
-- **Tests :** Équipe BEYANA
-
----
-
-## �� **CHANGELOG**
+## 📝 **CHANGELOG**
 
 ###
 
