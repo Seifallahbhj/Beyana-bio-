@@ -1,0 +1,36 @@
+# Node.js
+node_modules/
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+
+# Next.js / Build
+.next/
+out/
+build/
+dist/
+
+# Coverage
+coverage/
+
+# Env files
+.env*
+.env
+
+# TypeScript
+*.tsbuildinfo
+
+# IDE / Editor
+.vscode/
+.idea/
+
+# Mac
+.DS_Store
+
+# Vercel
+.vercel/
+
+# Markdown (ignore tous les .md sauf README.md)
+*.md
+!README.md 
