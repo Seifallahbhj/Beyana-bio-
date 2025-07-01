@@ -1,0 +1,42 @@
+name: Format Check
+
+on:
+  push:
+    branches: [main, develop]
+  pull_request:
+    branches: [main, develop]
+
+jobs:
+  format:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: "20.x"
+          cache: "npm"
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Check code formatting
+        run: |
+          # Vérifier le formatage avec Prettier (si configuré)
+          if [ -f "package.json" ] && grep -q "prettier" package.json; then
+            npx prettier --check "**/*.{js,jsx,ts,tsx,json,md}"
+          fi
+
+      - name: Check ESLint
+        run: npm run lint
+
+      - name: Check TypeScript
+        run: |
+          # Vérifier la compilation TypeScript
+          npx tsc --noEmit --project apps/backend/tsconfig.json
+          npx tsc --noEmit --project apps/frontend/tsconfig.json
+          npx tsc --noEmit --project apps/admin/tsconfig.json
+          npx tsc --noEmit --project packages/types/tsconfig.json

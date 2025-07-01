@@ -26,7 +26,8 @@ BEYANA est une plateforme e-commerce premium spécialisée dans les produits bio
 
 - ✅ **Backend :** 100% fonctionnel (149/149 tests passent)
 - ✅ **Frontend :** 98% fonctionnel (17/17 pages créées et fonctionnelles)
-- 🔄 **Admin :** En développement (prochaine priorité)
+- ✅ **Admin :** MVP fonctionnel (dashboard, CRUD produits, multi-images, produits vedettes, synchro frontend)
+- 🔜 **Admin à finaliser :** gestion avancée des commandes, gestion utilisateurs, analytics, notifications, sécurité renforcée
 
 ### **Problèmes Connus Frontend**
 
@@ -619,3 +620,10 @@ _Dernière mise à jour :_
 ## Lancement rapide
 
 Voir les README spécifiques dans chaque dossier pour les instructions détaillées.
+
+### **Conseils pour tester l'admin**
+
+- Accédez à l'admin sur http://localhost:3001
+- Testez la création/édition de produits (case "Mettre en avant" pour produits vedettes)
+- Vérifiez la synchronisation avec le frontend public (section "Produits vedettes" sur l'accueil)
+- Les prochaines étapes concernent la gestion avancée des commandes, des utilisateurs et l'ajout d'analytics
