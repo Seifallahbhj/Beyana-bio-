@@ -23,9 +23,16 @@ try {
   stripe = new Stripe(process.env.STRIPE_SECRET_KEY, {
     apiVersion: "2025-05-28.basil",
   });
-} catch {
-  // console.error("Error initializing Stripe:", _error);
-  process.exit(1);
+} catch (error: unknown) {
+  if (process.env.NODE_ENV === "production") {
+    process.exit(1);
+  } else {
+    if (error instanceof Error) {
+      console.error("Error initializing Stripe:", error.message);
+    } else {
+      console.error("Error initializing Stripe:", error);
+    }
+  }
 }
 
 // @desc    Create new order
