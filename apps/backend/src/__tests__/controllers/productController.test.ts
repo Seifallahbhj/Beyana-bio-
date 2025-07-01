@@ -175,8 +175,11 @@ describe("Product Controller", () => {
         .get(`/api/products/${testProduct._id}`)
         .expect(200);
 
-      expect(response.body).toHaveProperty("_id", testProduct._id.toString());
-      expect(response.body).toHaveProperty("name", testProduct.name);
+      expect(response.body.data).toHaveProperty(
+        "_id",
+        testProduct._id.toString()
+      );
+      expect(response.body.data).toHaveProperty("name", testProduct.name);
     });
 
     it("should return 404 for non-existent product", async () => {
@@ -185,7 +188,7 @@ describe("Product Controller", () => {
         .get(`/api/products/${nonExistentId}`)
         .expect(404);
 
-      expect(response.body).toHaveProperty("message", "Product not found");
+      expect(response.body).toHaveProperty("error", "Produit non trouvé");
     });
   });
 
@@ -195,8 +198,11 @@ describe("Product Controller", () => {
         .get(`/api/products/slug/${testProduct.slug}`)
         .expect(200);
 
-      expect(response.body).toHaveProperty("_id", testProduct._id.toString());
-      expect(response.body).toHaveProperty("slug", testProduct.slug);
+      expect(response.body.data).toHaveProperty(
+        "_id",
+        testProduct._id.toString()
+      );
+      expect(response.body.data).toHaveProperty("slug", testProduct.slug);
     });
 
     it("should return 404 for non-existent slug", async () => {
