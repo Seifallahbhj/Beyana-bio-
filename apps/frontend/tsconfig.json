@@ -5,13 +5,15 @@
     "lib": ["dom", "dom.iterable", "esnext"],
     "moduleResolution": "bundler",
     "jsx": "preserve",
+    "baseUrl": "src",
+    "types": ["jest", "node"],
     "plugins": [
       {
         "name": "next"
       }
     ],
     "paths": {
-      "@/*": ["./src/*"],
+      "@/*": ["./*"],
       "@beyana/types": ["../../packages/types/src/index"]
     }
   },
