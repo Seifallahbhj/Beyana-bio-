@@ -1,33 +1,30 @@
 # 🚀 BEYANA - Plateforme E-commerce Bio Premium
 
-## 🆕 Dernières évolutions
+## 🆕 **NOUVELLE ARCHITECTURE MONOREPO**
 
-- **Tunnel de commande robuste** : Stripe intégré, webhooks fonctionnels, mapping sécurisé des statuts ✅
-- **Compte client opérationnel** : Profil, commandes, wishlist, paramètres avec changement de mot de passe ✅
-- **Qualité du code** : Tous les warnings ESLint corrigés, TypeScript robuste, mapping sécurisé ✅
-- **Robustesse** : Gestion des tokens, synchronisation frontend/backend, logs nettoyés ✅
-- **Tests** : 149/149 tests backend passent, couverture complète des fonctionnalités critiques ✅
+Ce projet a été restructuré en **monorepo** avec Turborepo pour une meilleure organisation, des types partagés et un développement plus efficace.
 
-## 🆕 Changements récents
+### **Nouvelles fonctionnalités**
 
-- Upload d'avatar Cloudinary avec mise à jour instantanée de la photo de profil (sans rechargement)
-- Notifications toast globales avec react-hot-toast (compatible React 19)
-- Correction du warning Next.js sur les images de profil
-- Nettoyage du code (suppression de react-toastify, migration vers react-hot-toast)
-- Synchronisation immédiate du contexte utilisateur après modification de l'avatar
+- ✅ **Monorepo Turborepo** : Gestion centralisée des apps et packages
+- ✅ **Types partagés** : Interfaces TypeScript communes entre frontend/backend
+- ✅ **CI/CD automatisé** : Workflows GitHub Actions pour linting, tests, builds
+- ✅ **Configuration centralisée** : TypeScript, ESLint, Prettier unifiés
+- ✅ **Développement optimisé** : Builds parallèles et cache intelligent
 
 ---
 
 ## 📋 **VUE D'ENSEMBLE**
 
-BEYANA est une plateforme e-commerce premium spécialisée dans les produits biologiques. Le projet utilise une architecture moderne avec un backend Node.js/Express/MongoDB et un frontend Next.js/React/TypeScript.
+BEYANA est une plateforme e-commerce premium spécialisée dans les produits biologiques. Le projet utilise une architecture moderne avec un backend Node.js/Express/MongoDB et un frontend Next.js/React/TypeScript, organisés en monorepo.
 
 ### **Statut du Projet**
 
 - ✅ **Backend :** 100% fonctionnel (149/149 tests passent)
 - ✅ **Frontend :** 98% fonctionnel (17/17 pages créées et fonctionnelles)
-- ✅ **Admin :** MVP fonctionnel (dashboard, CRUD produits, multi-images, produits vedettes, synchro frontend)
-- 🔜 **Admin à finaliser :** gestion avancée des commandes, gestion utilisateurs, analytics, notifications, sécurité renforcée
+- ✅ **Admin :** MVP fonctionnel (dashboard, CRUD produits, multi-images, produits vedettes)
+- ✅ **Monorepo :** Configuration complète avec Turborepo et types partagés
+- 🔜 **Admin à finaliser :** gestion avancée des commandes, gestion utilisateurs, analytics
 
 ### **Problèmes Connus Frontend**
 
@@ -47,31 +44,44 @@ BEYANA est une plateforme e-commerce premium spécialisée dans les produits bio
 
 ---
 
-## 🏗️ **ARCHITECTURE**
+## 🏗️ **ARCHITECTURE MONOREPO**
 
 ```
-BEYANA/
-├── backend/                 # API REST (Node.js/Express/MongoDB)
-│   ├── src/
-│   │   ├── controllers/     # Logique métier
-│   │   ├── models/          # Schémas MongoDB
-│   │   ├── routes/          # Définition des routes
-│   │   ├── middleware/      # Middlewares Express
-│   │   └── utils/           # Utilitaires
-│   └── __tests__/           # Tests automatisés
-├── frontend/                # E-commerce (Next.js/React)
-│   ├── src/
-│   │   ├── app/             # Pages Next.js 15
-│   │   ├── components/      # Composants React
-│   │   ├── contexts/        # Gestion d'état
-│   │   ├── hooks/           # Hooks personnalisés
-│   │   └── services/        # Services API
-│   └── __tests__/           # Tests automatisés
-├── admin/                   # Dashboard admin (Next.js/React)
-│   └── src/
-│       ├── app/             # Pages admin
-│       └── components/      # Composants admin
-└── docs/                    # Documentation
+beyana-main/
+├── apps/                    # Applications
+│   ├── backend/            # API REST (Node.js/Express/MongoDB)
+│   │   ├── src/
+│   │   │   ├── controllers/ # Logique métier
+│   │   │   ├── models/      # Schémas MongoDB
+│   │   │   ├── routes/      # Définition des routes
+│   │   │   ├── middleware/  # Middlewares Express
+│   │   │   └── utils/       # Utilitaires
+│   │   └── __tests__/       # Tests automatisés
+│   ├── frontend/           # E-commerce (Next.js/React)
+│   │   ├── src/
+│   │   │   ├── app/        # Pages Next.js 15
+│   │   │   ├── components/ # Composants React
+│   │   │   ├── contexts/   # Gestion d'état
+│   │   │   ├── hooks/      # Hooks personnalisés
+│   │   │   └── services/   # Services API
+│   │   └── __tests__/      # Tests automatisés
+│   └── admin/              # Dashboard admin (Next.js/React)
+│       └── src/
+│           ├── app/        # Pages admin
+│           └── components/ # Composants admin
+├── packages/               # Packages partagés
+│   └── types/             # Types TypeScript partagés
+│       ├── src/
+│       │   ├── user.ts    # Types utilisateur
+│       │   ├── product.ts # Types produit
+│       │   ├── order.ts   # Types commande
+│       │   ├── category.ts # Types catégorie
+│       │   └── common.ts  # Types communs
+│       └── package.json
+├── .github/workflows/      # CI/CD GitHub Actions
+├── turbo.json             # Configuration Turborepo
+├── tsconfig.base.json     # Configuration TypeScript de base
+└── package.json           # Scripts monorepo
 ```
 
 ---
@@ -84,31 +94,28 @@ BEYANA/
 - MongoDB 6.0+
 - npm ou yarn
 
-### **Backend**
+### **Installation complète**
 
 ```bash
 # Cloner le repository
 git clone <repository-url>
-cd beyana-main/backend
+cd beyana-main
 
-# Installer les dépendances
+# Installer toutes les dépendances (monorepo)
 npm install
 
-# Configuration
+# Configuration backend
+cd apps/backend
 cp .env.example .env
 # Éditer .env avec vos variables d'environnement
 
-# Peupler la base de données (optionnel)
-npm run seed
-
-# Démarrer le serveur de développement
-npm run dev
-
-# Lancer les tests
-npm test
+# Retourner à la racine
+cd ../..
 ```
 
-**Variables d'environnement requises :**
+### **Variables d'environnement requises**
+
+Créer `apps/backend/.env` :
 
 ```env
 MONGODB_URI=mongodb://localhost:27017/beyana
@@ -118,37 +125,94 @@ STRIPE_WEBHOOK_SECRET=whsec_...
 PORT=5000
 ```
 
-### **Frontend**
+### **Lancement du développement**
 
 ```bash
-cd ../frontend
-
-# Installer les dépendances
-npm install
-
-# Démarrer le serveur de développement
+# Lancer tous les services en développement
 npm run dev
 
-# Lancer les tests
-npm test
-
-# Build de production
-npm run build
+# Ou lancer des services spécifiques
+npm run dev --filter=frontend    # Frontend seulement
+npm run dev --filter=admin       # Admin seulement
+npm run dev --filter=backend     # Backend seulement
 ```
 
-### **Admin**
+**Services disponibles :**
+
+- **Frontend** : http://localhost:3000
+- **Admin** : http://localhost:3001
+- **Backend** : http://localhost:5000
+
+---
+
+## 🛠️ **COMMANDES MONOREPO**
+
+### **Développement**
 
 ```bash
-cd ../admin
-
-# Installer les dépendances
-npm install
-
-# Démarrer le serveur de développement
+# Lancer tous les services
 npm run dev
 
-# Lancer les tests
-npm test
+# Lancer des services spécifiques
+npm run dev --filter=frontend
+npm run dev --filter=admin
+npm run dev --filter=backend
+
+# Build de tous les projets
+npm run build
+
+# Build de projets spécifiques
+npm run build --filter=frontend
+npm run build --filter=admin
+npm run build --filter=backend
+```
+
+### **Qualité du code**
+
+```bash
+# Vérifier le linting sur tous les projets
+npm run lint
+
+# Corriger automatiquement les erreurs de linting
+npm run lint:fix
+
+# Vérifier le formatage
+npm run format:check
+
+# Formater le code
+npm run format
+```
+
+### **Tests**
+
+```bash
+# Lancer tous les tests
+npm run test
+
+# Tests backend
+npm run test --filter=backend
+
+# Tests frontend
+npm run test --filter=frontend
+
+# Tests admin
+npm run test --filter=admin
+
+# Tests avec couverture
+npm run test:coverage
+```
+
+### **Utilitaires**
+
+```bash
+# Nettoyer les caches
+npm run clean
+
+# Vérifier les types TypeScript
+npm run type-check
+
+# Générer la documentation des types
+npm run docs:types
 ```
 
 ---
@@ -167,10 +231,8 @@ npm test
 
 - ✅ **Build :** Réussi sans warnings
 - ✅ **Linting :** Configuration ESLint stricte
-- ✅ **TypeScript :** Configuration stricte
-- 🔄 **Tests unitaires :** 1 test basique (6% de couverture)
-- 🔄 **Tests d'intégration :** Non implémentés
-- 🔄 **Tests End-to-End :** Non implémentés
+- ✅ **TypeScript :** Configuration stricte avec types partagés
+- 🔄 **Tests unitaires :** En cours d'implémentation
 
 ---
 
@@ -226,34 +288,18 @@ npm test
 - ✅ **Loading states** : Skeleton loading élégants
 - ✅ **Gestion d'erreurs** : États d'erreur gracieux
 - ✅ **Design responsive** : Mobile-first avec Tailwind CSS
-- ✅ **Navigation** : Header avec menu déroulant, top bar
-- ✅ **Recherche** : Barre de recherche avec focus states
-- ✅ **Newsletter** : Formulaire d'inscription (UI seulement)
+- ✅ **Types partagés** : Interfaces cohérentes avec le backend
 
-#### **Composants UI Premium**
+### **Admin Dashboard**
 
-- ✅ **Design system** : Button, Card, Input, Badge, Pagination
-- ✅ **Animations** : Hover states, transitions fluides
-- ✅ **Accessibilité** : Base WCAG 2.1 implémentée
-- ✅ **Performance** : Build optimisé sans warnings
+#### **Fonctionnalités**
 
-#### **Gestion robuste des images**
-
-- Toutes les images dynamiques (produits, utilisateurs, catégories, documents) sont affichées via le composant `RobustImage`.
-- Ce composant gère automatiquement les erreurs de chargement et affiche un placeholder SVG ou une image locale.
-- Les SVG de fallback sont personnalisés pour chaque contexte (ex : AvatarSVG, ProductSVG, CategorySVG, DocumentSVG).
-- Pour ajouter un nouveau type de placeholder, créer un fichier SVG dans `frontend/src/components/ui/` et l'utiliser via la prop `fallbackSvg`.
-- Exemple d'utilisation :
-  ```tsx
-  <RobustImage
-    src={product.images[0]}
-    alt={product.name}
-    width={120}
-    height={120}
-    fallbackSvg={<ProductSVG />}
-  />
-  ```
-- Pour compatibilité, un fichier `placeholder.png` peut être placé dans `public/`.
+- ✅ **Authentification admin** sécurisée
+- ✅ **Dashboard principal** avec statistiques
+- ✅ **Gestion des produits** (CRUD complet)
+- ✅ **Upload d'images multiples**
+- ✅ **Produits vedettes** avec synchronisation frontend
+- ✅ **Interface responsive** et moderne
 
 ---
 
@@ -294,8 +340,13 @@ npm test
 - **Core Web Vitals :** Optimaux
 - **Mobile Performance :** > 90/100
 - **Build :** Réussi sans warnings
-- **Pages créées :** 16/16 (100%)
-- **Pages fonctionnelles :** 16/16 (100%)
+
+### **Monorepo**
+
+- **Builds parallèles** : Optimisation Turborepo
+- **Cache intelligent** : Réutilisation des builds
+- **Types partagés** : Cohérence entre frontend/backend
+- **CI/CD automatisé** : Workflows GitHub Actions
 
 ---
 
@@ -303,29 +354,36 @@ npm test
 
 ### **Phase 1 : Admin Dashboard (Priorité Haute)**
 
-- [ ] **Authentification admin** sécurisée
-- [ ] **Dashboard principal** avec KPIs
-- [ ] **Gestion des produits** (CRUD complet)
-- [ ] **Gestion des commandes**
+- [ ] **Gestion avancée des commandes**
 - [ ] **Gestion des utilisateurs**
+- [ ] **Analytics et rapports**
+- [ ] **Notifications système**
 
-### **Phase 2 : Optimisations & Finitions (Priorité Moyenne)**
+### **Phase 2 : Optimisations (Priorité Moyenne)**
 
-- [ ] **Animations et micro-interactions** avec Framer Motion
 - [ ] **Tests End-to-End** avec Playwright
 - [ ] **Optimisations de performance**
 - [ ] **Accessibilité WCAG 2.1 AA**
+- [ ] **PWA (Progressive Web App)**
 
 ### **Phase 3 : Déploiement Production (Priorité Haute)**
 
 - [ ] **Configuration des environnements**
-- [ ] **CI/CD pipeline**
 - [ ] **Monitoring et alertes**
 - [ ] **Documentation utilisateur**
+- [ ] **Backup et récupération**
 
 ---
 
 ## 🛠️ **STACK TECHNIQUE**
+
+### **Monorepo**
+
+- **Build System :** Turborepo
+- **Package Manager :** npm
+- **TypeScript :** Configuration centralisée
+- **Linting :** ESLint + Prettier
+- **CI/CD :** GitHub Actions
 
 ### **Backend**
 
@@ -337,8 +395,6 @@ npm test
 - **Paiements :** Stripe API
 - **Tests :** Jest + Supertest
 - **Validation :** Zod
-- **Logging :** Winston
-- **Notifications :** react-hot-toast
 
 ### **Frontend**
 
@@ -348,13 +404,14 @@ npm test
 - **State Management :** React Context
 - **Forms :** React Hook Form + Zod
 - **Paiements :** Stripe Elements
-- **Build :** TypeScript 5.0+
+- **Types :** Package partagé `@beyana/types`
 
-### **Admin (En développement)**
+### **Admin**
 
 - **Framework :** Next.js 15.3+
 - **UI Library :** React 18+
 - **Styling :** Tailwind CSS 3.3+
+- **Types :** Package partagé `@beyana/types`
 
 ---
 
@@ -383,19 +440,19 @@ npm test
 ### **Lancer les Tests**
 
 ```bash
-# Backend
-cd backend
-npm test
-npm run test:coverage
+# Tous les tests
+npm run test
 
-# Frontend
-cd frontend
-npm test
-npm run test:coverage
+# Tests backend
+npm run test --filter=backend
 
-# Admin
-cd admin
-npm test
+# Tests frontend
+npm run test --filter=frontend
+
+# Tests admin
+npm run test --filter=admin
+
+# Tests avec couverture
 npm run test:coverage
 ```
 
@@ -411,28 +468,53 @@ npm run test:coverage
 
 ### **Scripts Disponibles**
 
+#### **Monorepo (racine)**
+
+```bash
+npm run dev              # Lancer tous les services
+npm run build            # Build de tous les projets
+npm run lint             # Linting de tous les projets
+npm run lint:fix         # Corriger le linting
+npm run format:check     # Vérifier le formatage
+npm run format           # Formater le code
+npm run test             # Tous les tests
+npm run clean            # Nettoyer les caches
+npm run type-check       # Vérifier les types
+```
+
 #### **Backend**
 
 ```bash
-npm run dev          # Serveur de développement
-npm run build        # Build de production
-npm run start        # Serveur de production
-npm test             # Lancer les tests
-npm run test:watch   # Tests en mode watch
-npm run seed         # Peupler la base de données
-npm run lint         # Vérifier le code
-npm run lint:fix     # Corriger automatiquement
+npm run dev              # Serveur de développement
+npm run build            # Build de production
+npm run start            # Serveur de production
+npm test                 # Lancer les tests
+npm run test:watch       # Tests en mode watch
+npm run seed             # Peupler la base de données
+npm run lint             # Vérifier le code
+npm run lint:fix         # Corriger automatiquement
 ```
 
 #### **Frontend**
 
 ```bash
-npm run dev          # Serveur de développement
-npm run build        # Build de production
-npm run start        # Serveur de production
-npm test             # Lancer les tests
-npm run lint         # Vérifier le code
-npm run lint:fix     # Corriger automatiquement
+npm run dev              # Serveur de développement
+npm run build            # Build de production
+npm run start            # Serveur de production
+npm test                 # Lancer les tests
+npm run lint             # Vérifier le code
+npm run lint:fix         # Corriger automatiquement
+```
+
+#### **Admin**
+
+```bash
+npm run dev              # Serveur de développement
+npm run build            # Build de production
+npm run start            # Serveur de production
+npm test                 # Lancer les tests
+npm run lint             # Vérifier le code
+npm run lint:fix         # Corriger automatiquement
 ```
 
 ---
@@ -445,17 +527,18 @@ npm run lint:fix     # Corriger automatiquement
 - ✅ **Tests** : Couverture complète des fonctionnalités critiques
 - ✅ **Documentation** : À jour avec l'état réel du code
 - ✅ **Commits** : Messages descriptifs et conventionnels
-- ✅ **Branches** : Feature branches pour les nouvelles fonctionnalités
+- ✅ **Types partagés** : Utiliser le package `@beyana/types`
 
 ### **Workflow de Développement**
 
 1. **Fork** le repository
 2. **Créer** une branche feature (`git checkout -b feature/nouvelle-fonctionnalite`)
 3. **Développer** avec les bonnes pratiques
-4. **Tester** : `npm test` dans chaque dossier
-5. **Commiter** avec un message descriptif
-6. **Pousser** vers la branche (`git push origin feature/nouvelle-fonctionnalite`)
-7. **Créer** une Pull Request
+4. **Tester** : `npm run test` pour tous les projets
+5. **Linter** : `npm run lint` et `npm run format`
+6. **Commiter** avec un message descriptif
+7. **Pousser** vers la branche (`git push origin feature/nouvelle-fonctionnalite`)
+8. **Créer** une Pull Request
 
 ---
 
@@ -470,10 +553,10 @@ npm run lint:fix     # Corriger automatiquement
 mongod --version
 
 # Vérifier les variables d'environnement
-cat .env
+cat apps/backend/.env
 
 # Réinstaller les dépendances
-rm -rf node_modules package-lock.json
+npm run clean
 npm install
 ```
 
@@ -487,6 +570,16 @@ curl http://localhost:5000/api/health
 # Vérifier les variables d'environnement frontend
 ```
 
+#### **Erreurs de types partagés**
+
+```bash
+# Reconstruire le package de types
+npm run build --filter=@beyana/types
+
+# Vérifier les types
+npm run type-check
+```
+
 #### **Tests qui échouent**
 
 ```bash
@@ -494,7 +587,7 @@ curl http://localhost:5000/api/health
 npm run test:clean
 
 # Relancer les tests
-npm test
+npm run test
 ```
 
 ---
@@ -507,7 +600,15 @@ Ce projet est sous licence MIT. Voir le fichier [LICENSE](LICENSE) pour plus de 
 
 ## 📝 **CHANGELOG**
 
-###
+### **v2.0.0 - Monorepo avec Turborepo**
+
+- ✅ **Restructuration complète** en monorepo avec Turborepo
+- ✅ **Types partagés** : Package `@beyana/types` pour la cohérence
+- ✅ **CI/CD automatisé** : Workflows GitHub Actions
+- ✅ **Configuration centralisée** : TypeScript, ESLint, Prettier unifiés
+- ✅ **Builds optimisés** : Cache intelligent et builds parallèles
+
+### **v1.5.0 - Admin Dashboard**
 
 - ✅ **Tunnel de commande robuste** : Stripe intégré, webhooks fonctionnels
 - ✅ **Compte client opérationnel** : Profil, commandes, wishlist, paramètres
@@ -515,26 +616,18 @@ Ce projet est sous licence MIT. Voir le fichier [LICENSE](LICENSE) pour plus de 
 - ✅ **Robustesse** : Gestion des tokens, synchronisation frontend/backend
 - ✅ **Tests** : 149/149 tests backend passent
 
-###
+### **v1.0.0 - MVP E-commerce**
 
 - ✅ **Refactoring complet** du frontend
 - ✅ **Documentation** mise à jour
 - ✅ **Tests backend** : 149/149 passent
 - ✅ **Pages principales** terminées et testées
 
-###
-
-- Upload avatar instantané (Cloudinary + toast)
-- Notification toast globales avec react-hot-toast (compatible React 19)
-- Correction du warning Next.js sur les images de profil
-- Nettoyage du code (suppression de react-toastify, migration vers react-hot-toast)
-- Synchronisation immédiate du contexte utilisateur après modification de l'avatar
-
 ---
 
-**Dernière mise à jour :**
-**Version :**
-**Statut :** 95% Frontend Terminé, Prêt pour Admin Dashboard
+**Dernière mise à jour :** Janvier 2025  
+**Version :** 2.0.0  
+**Statut :** Monorepo opérationnel, Prêt pour Admin Dashboard avancé
 
 ## Présentation
 
