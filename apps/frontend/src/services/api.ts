@@ -435,3 +435,19 @@ export const {
   uploadAvatar,
   getProductBySlug,
 } = apiService;
+
+export type {
+  ApiResponse,
+  ProductsResponse,
+  Product,
+  Category,
+  User,
+  LoginCredentials,
+  RegisterData,
+  Cart,
+  Order,
+  OrderPayload,
+  PaymentIntentRequest,
+  PaymentIntentResponse,
+  UserOrdersResponse,
+} from "@beyana/types";
