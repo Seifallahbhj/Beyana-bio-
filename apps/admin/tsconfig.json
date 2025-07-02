@@ -10,8 +10,9 @@
         "name": "next"
       }
     ],
+    "baseUrl": ".",
     "paths": {
-      "@/*": ["./src/*"],
+      "@/*": ["src/*"],
       "@beyana/types": ["../../packages/types/src/index"]
     }
   },
