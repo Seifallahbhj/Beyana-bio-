@@ -216,7 +216,7 @@ export default function WishlistPage() {
                   </div>
 
                   <div className="text-sm text-gray-500">
-                    {product.stock > 0 ? (
+                    {(product.stock ?? 0) > 0 ? (
                       <span className="text-green-600">En stock</span>
                     ) : (
                       <span className="text-red-600">Rupture</span>
@@ -227,7 +227,7 @@ export default function WishlistPage() {
                 <div className="mt-4 space-y-2">
                   <Button
                     onClick={() => addToCart(product._id)}
-                    disabled={product.stock === 0}
+                    disabled={(product.stock ?? 0) === 0}
                     className="w-full flex items-center justify-center"
                   >
                     <ShoppingCart className="mr-2 h-4 w-4" />

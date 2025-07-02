@@ -258,7 +258,7 @@ export default function OrdersPage() {
                         Adresse de livraison
                       </div>
                       <div>
-                        {order.shippingAddress?.street}
+                        {order.shippingAddress?.address ?? ""}
                         <br />
                         {order.shippingAddress?.zipCode}{" "}
                         {order.shippingAddress?.city}

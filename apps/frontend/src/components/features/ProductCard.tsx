@@ -100,7 +100,7 @@ const ProductCard: React.FC<ProductCardProps> = ({
     return { status: "available", text: "En stock", color: "success" as const };
   };
 
-  const stockStatus = getStockStatus(product.stock);
+  const stockStatus = getStockStatus(product.stock ?? 0);
 
   return (
     <Card
@@ -205,7 +205,7 @@ const ProductCard: React.FC<ProductCardProps> = ({
               <svg
                 key={i}
                 className={`h-4 w-4 ${
-                  i < Math.floor(product.rating)
+                  i < Math.floor(product.rating ?? 0)
                     ? "text-yellow-400"
                     : "text-gray-300"
                 }`}

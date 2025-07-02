@@ -355,7 +355,7 @@ export default function OrderDetailPage() {
             <div className="bg-gray-50 p-4 rounded-lg">
               <div className="text-gray-700">
                 <div className="font-medium">
-                  {order.shippingAddress.street}
+                  {order.shippingAddress?.address ?? ""}
                 </div>
                 <div>
                   {order.shippingAddress.zipCode} {order.shippingAddress.city}
