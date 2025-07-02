@@ -23,7 +23,7 @@ try {
   stripe = new Stripe(process.env.STRIPE_SECRET_KEY, {
     apiVersion: "2025-05-28.basil",
   });
-} catch (error: unknown) {
+} catch {
   if (process.env.NODE_ENV === "production") {
     process.exit(1);
   }
