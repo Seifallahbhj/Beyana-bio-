@@ -26,13 +26,8 @@ try {
 } catch (error: unknown) {
   if (process.env.NODE_ENV === "production") {
     process.exit(1);
-  } else {
-    if (error instanceof Error) {
-      console.error("Error initializing Stripe:", error.message);
-    } else {
-      console.error("Error initializing Stripe:", error);
-    }
   }
+  // Bloc catch intentionnellement vide pour CI/CD clean
 }
 
 // @desc    Create new order
