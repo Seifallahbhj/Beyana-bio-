@@ -9,6 +9,7 @@ import RobustImage from "@/components/ui/RobustImage";
 import AvatarSVG from "@/components/ui/AvatarSVG";
 import { apiService } from "@/services/api";
 import { toast } from "react-hot-toast";
+import type { User as UserType } from "@beyana/types";
 
 // Types stricts pour l'adresse et le formulaire
 export type Address = {
@@ -142,7 +143,7 @@ export default function ProfilePage() {
         const result = await apiService.uploadAvatar(file);
         if (result.success && result.data?.avatar) {
           if (result.data) {
-            setUser(prev =>
+            setUser((prev: UserType | null) =>
               prev ? { ...prev, avatar: result.data!.avatar } : prev
             );
           }

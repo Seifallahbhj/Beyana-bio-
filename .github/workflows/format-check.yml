@@ -33,6 +33,13 @@ jobs:
       - name: Check ESLint
         run: npm run lint
 
+      - name: Build shared types package
+        run: |
+          cd packages/types
+          npm install
+          npm run build
+          cd ../../
+
       - name: Check TypeScript
         run: |
           # Vérifier la compilation TypeScript

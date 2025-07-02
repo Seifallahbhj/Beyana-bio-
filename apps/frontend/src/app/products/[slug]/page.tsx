@@ -95,7 +95,7 @@ export default function ProductDetailPage() {
                   </div>
                   {product.images.length > 1 && (
                     <div className="flex gap-2 mt-2">
-                      {product.images.map((img, idx) => (
+                      {product.images.map((img: string, idx: number) => (
                         <div
                           key={img}
                           className="relative w-20 h-20 border rounded overflow-hidden"
@@ -167,14 +167,16 @@ export default function ProductDetailPage() {
                     Unité : {product.unit}
                   </span>
                 )}
-                <span className="bg-gray-100 px-3 py-1 rounded">
-                  Stock :{" "}
-                  {product.stock > 0 ? `${product.stock} dispo` : "Rupture"}
-                </span>
+                {product.stock !== undefined && (
+                  <span className="bg-gray-100 px-3 py-1 rounded">
+                    Stock :{" "}
+                    {product.stock > 0 ? `${product.stock} dispo` : "Rupture"}
+                  </span>
+                )}
               </div>
               {product.certifications && product.certifications.length > 0 && (
                 <div className="mb-4 flex flex-wrap gap-2">
-                  {product.certifications.map(cert => (
+                  {product.certifications.map((cert: string) => (
                     <span
                       key={cert}
                       className="bg-emerald-100 text-emerald-700 px-2 py-1 rounded text-xs"

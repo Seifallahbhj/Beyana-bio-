@@ -18,6 +18,7 @@ export interface Product {
   _id: string;
   name: string;
   slug: string;
+  description: string;
   descriptionShort: string;
   descriptionDetailed: string;
   price: number;
