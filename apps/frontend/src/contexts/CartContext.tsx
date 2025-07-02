@@ -10,6 +10,7 @@ import React, {
   useCallback,
 } from "react";
 import { Product } from "../services/api";
+import type { CartItem } from "../types";
 
 // Contexte du panier pour l'application e-commerce
 // Fournit les fonctions et états liés au panier et à l'adresse de livraison
@@ -22,11 +23,6 @@ export type ShippingAddress = {
   state: string;
   country: string;
 };
-
-// Interface pour un article dans le panier (hérite de Product)
-export interface CartItem extends Product {
-  quantity: number;
-}
 
 // Interface du contexte du panier
 interface CartContextType {

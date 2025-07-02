@@ -4,15 +4,11 @@ import React, { useEffect, useState } from "react";
 import Header from "../../components/layout/Header";
 import Footer from "../../components/layout/Footer";
 import { Button } from "../../components/ui";
-import { apiService, Category } from "../../services/api";
+import { apiService } from "../../services/api";
 import Link from "next/link";
 import RobustImage from "../../components/ui/RobustImage";
 import { CategorySVG } from "../../components/ui/CategorySVG";
-
-interface CategoryWithProducts extends Category {
-  productCount: number;
-  image?: string;
-}
+import type { CategoryWithProducts } from "../../types";
 
 // Fonction utilitaire pour générer un slug propre (sans accents, espaces, caractères spéciaux)
 function slugify(str: string): string {
@@ -154,7 +150,7 @@ export default function CategoriesPage() {
                     <div className="bg-white rounded-lg p-6 shadow-sm">
                       <div className="text-3xl font-bold text-primary-green mb-2">
                         {categories.reduce(
-                          (sum, cat) => sum + cat.productCount,
+                          (sum, cat) => sum + (cat.productCount ?? 0),
                           0
                         )}
                       </div>
