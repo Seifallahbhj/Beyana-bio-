@@ -1,5 +1,129 @@
 # 🚀 BEYANA - Plateforme E-commerce Bio Premium
 
+[![CI/CD Status](https://github.com/Seifallahbhj/Beyana-bio-/actions/workflows/ci.yml/badge.svg)](https://github.com/Seifallahbhj/Beyana-bio-/actions)
+
+---
+
+## 🛠️ Maintenance & Correctifs (Juin 2024)
+
+- Nettoyage complet des dépendances (`node_modules` supprimé et réinstallé, cache npm vidé)
+- Correction de la version Stripe API (`2025-06-30.basil`)
+- Build et lancement des serveurs **admin**, **backend** et **frontend** : tous fonctionnels
+- Warnings npm sur des paquets dépréciés (`glob`, `inflight`, `q`) sans impact bloquant
+- Dashboard Admin : interface visible, mais fonctionnalités/boutons à implémenter ou compléter
+- Voir la section 'Installation' pour la procédure de nettoyage
+
+---
+
+## 📑 Sommaire
+
+- [Présentation](#présentation)
+- [Architecture](#architecture)
+- [Installation](#installation)
+- [Commandes](#commandes)
+- [Structure des dossiers](#structure-des-dossiers)
+- [CI/CD](#cicd)
+- [Documentation](#documentation)
+- [Contribuer](#contribuer)
+- [Auteurs](#auteurs)
+- [Licence](#licence)
+
+---
+
+## Présentation
+
+BEYANA est une plateforme e-commerce premium spécialisée dans les produits biologiques. Le projet utilise une architecture moderne avec un backend Node.js/Express/MongoDB et un frontend Next.js/React/TypeScript, organisés en monorepo.
+
+---
+
+## Architecture
+
+Voir la section détaillée dans [ROADMAP.md](./ROADMAP.md)
+
+- **Backend** : Node.js/Express/MongoDB
+- **Frontend** : Next.js/React/TypeScript
+- **Admin** : Next.js/React/TypeScript
+- **Types partagés** : Package `@beyana/types`
+- **Monorepo** : Turborepo
+
+---
+
+## Installation
+
+### Prérequis
+
+- Node.js 18+
+- MongoDB 6.0+
+- npm ou yarn
+
+### Installation rapide
+
+```bash
+git clone <repository-url>
+cd beyana-main
+npm install
+```
+
+### Variables d'environnement
+
+Voir `.env.example` dans chaque app (backend, frontend, admin).
+
+---
+
+## Commandes
+
+- `npm run dev` : Démarrer tous les apps en dev
+- `npm run build` : Build complet
+- `npm run lint` : Lint global
+- `npm run test` : Tests backend
+
+Plus de détails dans [ROADMAP.md](./ROADMAP.md)
+
+---
+
+## Structure des dossiers
+
+Voir la structure détaillée dans [ROADMAP.md](./ROADMAP.md)
+
+---
+
+## CI/CD
+
+- Workflows GitHub Actions : lint, build, test, coverage
+- Badge de statut en haut du README
+- Voir le détail dans `.github/workflows/`
+
+---
+
+## Documentation
+
+- [Documentation API Backend](./REST.BACK.md)
+- [Roadmap & Stratégie](./ROADMAP.md)
+- [Rapport technique](./RAPPORT.md)
+
+---
+
+## Contribuer
+
+Merci de respecter les conventions suivantes :
+
+- **Commits** : [Conventional Commits](https://www.conventionalcommits.org/)
+- **Pull Requests** : PR claires, description du problème/résolution, liens vers issues si besoin
+- **Code style** : TypeScript strict, ESLint, Prettier
+- **Tests** : Ajouter/adapter les tests pour toute nouvelle fonctionnalité
+
+---
+
+## Auteurs
+
+- Seifallahbhj
+
+## Licence
+
+MIT
+
+---
+
 ## 🆕 **NOUVELLE ARCHITECTURE MONOREPO**
 
 Ce projet a été restructuré en **monorepo** avec Turborepo pour une meilleure organisation, des types partagés et un développement plus efficace.
