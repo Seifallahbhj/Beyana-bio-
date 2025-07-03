@@ -195,7 +195,7 @@ const ProductCard: React.FC<ProductCardProps> = ({
           <div className="text-sm text-gray-500 mb-2">
             {product.category.name}
           </div>
-          <Link href={`/products/${product._id}`}>
+          <Link href={`/products/${product.slug}`}>
             <h3 className="text-lg font-semibold text-gray-900 mb-2 hover:text-primary-green transition-colors line-clamp-2">
               {product.name}
             </h3>

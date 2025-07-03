@@ -22,9 +22,13 @@ interface PaginationInfo {
 }
 
 // Interface des facettes (filtres avancés)
+interface CategoryFacet {
+  _id: string;
+  name: string;
+}
 interface Facets {
   brands: string[];
-  categories: string[];
+  categories: CategoryFacet[];
   priceRange: {
     minPrice: number;
     maxPrice: number;
@@ -75,7 +79,13 @@ export function useProducts(filters: ProductFilters): UseProductsReturn {
 
         setProducts(productsData);
         setPagination({ page, pages, total });
-        setFacets(facetsData);
+        setFacets({
+          ...facetsData,
+          categories: (Array.isArray(facetsData.categories) &&
+          typeof facetsData.categories[0] === "string"
+            ? facetsData.categories.map((id: string) => ({ _id: id, name: id }))
+            : facetsData.categories) as CategoryFacet[],
+        });
       } else {
         setError(response.error || "Erreur lors du chargement des produits");
         setProducts([]);
@@ -131,7 +141,6 @@ export function useFeaturedProducts() {
         setError(null);
 
         const response = await apiService.getFeaturedProducts();
-
         if (response.success && response.data) {
           setProducts(response.data);
         } else {
@@ -142,6 +151,7 @@ export function useFeaturedProducts() {
       } catch {
         setError("Erreur de connexion au serveur");
         setProducts([]);
+      } finally {
         setLoading(false);
       }
     };

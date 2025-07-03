@@ -21,8 +21,8 @@ export default function ProductsPage() {
 
   const handleSearch = (search: string) =>
     setFilters(f => ({ ...f, search, page: 1 }));
-  const handleCategory = (category: string) =>
-    setFilters(f => ({ ...f, category, page: 1 }));
+  const handleCategory = (categoryId: string) =>
+    setFilters(f => ({ ...f, category: categoryId, page: 1 }));
   const handleSort = (sort: string) => setFilters(f => ({ ...f, sort }));
   const handlePage = (page: number) => setFilters(f => ({ ...f, page }));
 
@@ -53,7 +53,9 @@ export default function ProductsPage() {
           {/* Filtres latéraux */}
           <aside className="md:w-1/4">
             <FilterPanel
-              categories={facets?.categories || []}
+              categories={
+                Array.isArray(facets?.categories) ? facets.categories : []
+              }
               brands={facets?.brands || []}
               selectedCategory={filters.category}
               onCategoryChange={handleCategory}

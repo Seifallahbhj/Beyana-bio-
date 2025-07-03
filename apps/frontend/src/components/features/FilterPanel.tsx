@@ -7,8 +7,12 @@ import { Button } from "../ui";
 // Composant FilterPanel : panneau de filtres pour le catalogue produits
 
 // Props du composant FilterPanel
+interface CategoryFacet {
+  _id: string;
+  name: string;
+}
 interface FilterPanelProps {
-  categories: string[]; // Liste des catégories
+  categories: CategoryFacet[]; // Liste des catégories
   brands: string[]; // Liste des marques
   priceRange?: {
     minPrice: number;
@@ -106,15 +110,15 @@ export default function FilterPanel({
               </button>
               {categories.map(category => (
                 <button
-                  key={category}
-                  onClick={() => onCategoryChange(category)}
+                  key={category._id}
+                  onClick={() => onCategoryChange(category._id)}
                   className={`w-full text-left px-3 py-2 rounded-md text-sm transition-colors ${
-                    selectedCategory === category
+                    selectedCategory === category._id
                       ? "bg-primary-green text-white"
                       : "text-gray-700 hover:bg-gray-50"
                   }`}
                 >
-                  {category}
+                  {category.name}
                 </button>
               ))}
             </div>

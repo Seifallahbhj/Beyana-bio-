@@ -9,5 +9,5 @@ PASS src/__tests__/Sample.test.tsx
 Test Suites: 1 passed, 1 total
 Tests:       1 passed, 1 total
 Snapshots:   0 total
-Time:        4.572 s
+Time:        3.658 s
 Ran all test suites.

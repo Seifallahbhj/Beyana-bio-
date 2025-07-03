@@ -40,7 +40,7 @@ export const createPaymentIntent = asyncHandler(
     try {
       // Instancier Stripe dans la fonction pour permettre le mock Jest
       const stripe = new Stripe(process.env.STRIPE_SECRET_KEY as string, {
-        apiVersion: "2025-05-28.basil",
+        apiVersion: "2025-06-30.basil",
       });
 
       const paymentIntent = await stripe.paymentIntents.create({
@@ -131,7 +131,7 @@ export const handleWebhook = asyncHandler(
     try {
       // Instancier Stripe dans la fonction pour permettre le mock Jest
       const stripe = new Stripe(process.env.STRIPE_SECRET_KEY as string, {
-        apiVersion: "2025-05-28.basil",
+        apiVersion: "2025-06-30.basil",
       });
 
       // Utilise le buffer brut du body (fourni par express.raw)

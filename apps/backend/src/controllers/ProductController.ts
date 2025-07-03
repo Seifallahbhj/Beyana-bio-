@@ -121,7 +121,14 @@ const getProducts = asyncHandler(async (req: Request, res: Response) => {
 
   // Récupérer les facettes pour le filtrage
   const brands = await Product.distinct("brand");
-  const categories = await Product.distinct("category");
+  const categoryIds = await Product.distinct("category");
+  const categoriesDocs = await Category.find({
+    _id: { $in: categoryIds },
+  }).select("name _id");
+  const categories = categoriesDocs.map(cat => ({
+    _id: cat._id,
+    name: cat.name,
+  }));
   const priceRange = await Product.aggregate([
     {
       $group: {
