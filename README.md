@@ -4,7 +4,7 @@
 
 ---
 
-## 🛠️ Maintenance & Correctifs (Juin 2024)
+## 🛠️ Maintenance & Correctifs
 
 - Nettoyage complet des dépendances (`node_modules` supprimé et réinstallé, cache npm vidé)
 - Correction de la version Stripe API (`2025-06-30.basil`)
