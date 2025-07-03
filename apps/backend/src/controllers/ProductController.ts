@@ -177,9 +177,25 @@ const getFeaturedProducts = asyncHandler(
 // @route   GET /api/products/:id
 // @access  Public
 const getProductById = asyncHandler(async (req: Request, res: Response) => {
-  const product = await Product.findById(req.params.id);
+  const product = await Product.findById(req.params.id).populate(
+    "category",
+    "name slug"
+  );
   if (product) {
-    res.json({ success: true, data: product });
+    const formattedProduct = {
+      ...product.toObject(),
+      stock: product.stockQuantity,
+      rating: product.averageRating,
+      reviewCount: product.numReviews,
+      originalPrice: product.promotionalPrice,
+      unit: product.weightUnit,
+      certifications: product.certifications || [],
+      ingredients: product.ingredients || [],
+      nutritionalValues: product.nutritionalValues || [],
+      attributes: product.attributes || [],
+      images: product.images || [],
+    };
+    res.json({ success: true, data: formattedProduct });
   } else {
     res.status(404).json({
       success: false,
@@ -192,9 +208,25 @@ const getProductById = asyncHandler(async (req: Request, res: Response) => {
 // @route   GET /api/products/slug/:slug
 // @access  Public
 const getProductBySlug = asyncHandler(async (req: Request, res: Response) => {
-  const product = await Product.findOne({ slug: req.params.slug });
+  const product = await Product.findOne({ slug: req.params.slug }).populate(
+    "category",
+    "name slug"
+  );
   if (product) {
-    res.json({ success: true, data: product });
+    const formattedProduct = {
+      ...product.toObject(),
+      stock: product.stockQuantity,
+      rating: product.averageRating,
+      reviewCount: product.numReviews,
+      originalPrice: product.promotionalPrice,
+      unit: product.weightUnit,
+      certifications: product.certifications || [],
+      ingredients: product.ingredients || [],
+      nutritionalValues: product.nutritionalValues || [],
+      attributes: product.attributes || [],
+      images: product.images || [],
+    };
+    res.json({ success: true, data: formattedProduct });
   } else {
     res.status(404).json({
       success: false,

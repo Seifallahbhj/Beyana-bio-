@@ -100,7 +100,9 @@ const ProductCard: React.FC<ProductCardProps> = ({
     return { status: "available", text: "En stock", color: "success" as const };
   };
 
-  const stockStatus = getStockStatus(product.stock ?? 0);
+  // Correction du calcul du stock pour compatibilité avec le backend
+  const stock = product.stock ?? product.stockQuantity ?? 0;
+  const stockStatus = getStockStatus(stock);
 
   return (
     <Card
