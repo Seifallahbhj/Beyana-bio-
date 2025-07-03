@@ -844,3 +844,12 @@ Voir les README spécifiques dans chaque dossier pour les instructions détaill�
 - Testez la création/édition de produits (case "Mettre en avant" pour produits vedettes)
 - Vérifiez la synchronisation avec le frontend public (section "Produits vedettes" sur l'accueil)
 - Les prochaines étapes concernent la gestion avancée des commandes, des utilisateurs et l'ajout d'analytics
+
+## 🆕 Dernières évolutions (Juin 2024)
+
+- Correction du bug d'affichage du stock sur la page produits (mapping `stockQuantity` vs `stock`)
+- Ajout de produits de test dans la catégorie « Céréales & Grains » pour tester le cross-selling
+- Bloc « Produits similaires » désormais fonctionnel sur la page produit
+- Refonte de la page de détail produit : structure professionnelle, badges dynamiques, cross-selling, etc.
+- Diagnostic et recommandations sur la gestion centralisée des images produits avec Cloudinary
+- Analyse UX et plan d'amélioration pour le bloc « Avis clients » (inspiration Greenweez)
