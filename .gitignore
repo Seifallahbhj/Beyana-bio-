@@ -31,6 +31,38 @@ coverage/
 # Vercel
 .vercel/
 
+# Fichiers sensibles et privés
+.env*
+*.key
+*.pem
+*.crt
+*.p12
+*.sqlite
+*.db
+*.bak
+
+# Logs
+*.log
+*.log.*
+
+# Cache/build
+.turbo/
+.next/
+dist/
+build/
+coverage/
+
+# Système/éditeurs
+.DS_Store
+Thumbs.db
+.vscode/
+.idea/
+*.swp
+*.tmp
+
 # Markdown (ignore tous les .md sauf README.md)
 *.md
-!README.md 
+!README.md
+!RAPPORT.md
+!ROADMAP.md
+!REST.BACK.md 

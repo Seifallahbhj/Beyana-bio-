@@ -40,6 +40,11 @@ yarn-error.log*
 *.tsbuildinfo
 next-env.d.ts
 
-# Ignorer tous les fichiers .md sauf README.md
+# Ignorer tous les fichiers .md sauf README.md, RAPPORT.md, ROADMAP.md et REST.BACK.md
 
 !README.md
+!RAPPORT.md
+!ROADMAP.md
+!REST.BACK.md
+
+*.md
