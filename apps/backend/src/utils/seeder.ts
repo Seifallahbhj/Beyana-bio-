@@ -24,6 +24,83 @@ const connectDB = async () => {
   }
 };
 
+// Export individual functions for testing
+export const seedUsers = async () => {
+  const usersToCreate = [
+    {
+      firstName: "Admin",
+      lastName: "User",
+      email: "admin@beyana.com",
+      password: "adminpassword",
+      role: "admin",
+    },
+    {
+      firstName: "Customer",
+      lastName: "User",
+      email: "customer@beyana.com",
+      password: "password123",
+      role: "customer",
+    },
+  ];
+
+  const createdUsers = await Promise.all(
+    usersToCreate.map(user => User.create(user))
+  );
+
+  return createdUsers;
+};
+
+export const seedCategories = async () => {
+  const createdCategories = await Promise.all(
+    categories.map(category => Category.create(category))
+  );
+  return createdCategories;
+};
+
+export const seedProducts = async () => {
+  const existingCategories = await Category.find({});
+  const existingUsers = await User.find({});
+
+  if (existingCategories.length === 0) {
+    throw new Error("Categories must be seeded before products");
+  }
+
+  if (existingUsers.length === 0) {
+    throw new Error("Users must be seeded before products");
+  }
+
+  const categoryMap = existingCategories.reduce(
+    (acc, category) => {
+      acc[category.name] = category._id as mongoose.Types.ObjectId;
+      return acc;
+    },
+    {} as Record<string, mongoose.Types.ObjectId>
+  );
+
+  const productsToCreate = products.map(product => ({
+    ...product,
+    category: categoryMap[product.category],
+    user: existingUsers[0]._id, // Associer à l'admin
+  }));
+
+  const createdProducts = await Promise.all(
+    productsToCreate.map(product => Product.create(product))
+  );
+  return createdProducts;
+};
+
+export const runAll = async () => {
+  await seedUsers();
+  await seedCategories();
+  await seedProducts();
+};
+
+export const clearAll = async () => {
+  await Product.deleteMany();
+  await Category.deleteMany();
+  await User.deleteMany();
+};
+
 const importData = async () => {
   try {
     // 1. Nettoyer la base de données
@@ -120,4 +197,7 @@ const run = async () => {
   }
 };
 
-run();
+// Only run if this file is executed directly
+if (require.main === module) {
+  run();
+}

@@ -25,22 +25,20 @@ describe("Product Controller", () => {
 
     // Créer un utilisateur admin pour chaque test
     adminUser = await User.create({
-      name: "Admin User",
+      firstName: "Admin",
+      lastName: "User",
       email: "admin@test.com",
       password: "password123",
       role: "admin",
-      firstName: "Admin",
-      lastName: "User",
     });
 
     // Créer un utilisateur normal pour chaque test
     normalUser = await User.create({
-      name: "Normal User",
+      firstName: "Normal",
+      lastName: "User",
       email: "user@test.com",
       password: "password123",
       role: "customer",
-      firstName: "Normal",
-      lastName: "User",
     });
 
     // Créer une catégorie de test
@@ -141,23 +139,10 @@ describe("Product Controller", () => {
         }),
       ]);
 
-      console.log("Created products:", [
-        { name: product1.name, attributes: product1.attributes },
-        { name: product2.name, attributes: product2.attributes },
-      ]);
-
       // Test du filtrage par attributs
       const response = await request(app)
         .get("/api/products?attributes=bio,vegan")
         .expect(200);
-
-      console.log(
-        "Response products:",
-        response.body.data.products.map((p: IProduct) => ({
-          name: p.name,
-          attributes: p.attributes,
-        }))
-      );
 
       // Les assertions
       expect(response.body.data.products.length).toBe(1);

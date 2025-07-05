@@ -37,6 +37,7 @@ router.post(
     // Avec CloudinaryStorage, l'image est déjà uploadée sur Cloudinary
     // et req.file contient les informations de Cloudinary
     res.status(200).json({
+      success: true,
       url: req.file.path, // CloudinaryStorage met l'URL dans path
       public_id: req.file.filename, // CloudinaryStorage met le public_id dans filename
     });
@@ -66,7 +67,10 @@ router.post(
       };
     });
 
-    res.status(200).json({ images: uploadedImages });
+    res.status(200).json({
+      success: true,
+      images: uploadedImages,
+    });
   })
 );
 
@@ -87,6 +91,7 @@ router.post(
 
     // Avec CloudinaryStorage, l'image est déjà uploadée sur Cloudinary
     res.status(200).json({
+      success: true,
       url: req.file.path, // CloudinaryStorage met l'URL dans path
       public_id: req.file.filename, // CloudinaryStorage met le public_id dans filename
     });
