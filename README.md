@@ -861,7 +861,7 @@ Voir les README spécifiques dans chaque dossier pour les instructions détaill�
 - Vérifiez la synchronisation avec le frontend public (section "Produits vedettes" sur l'accueil)
 - Les prochaines étapes concernent la gestion avancée des commandes, des utilisateurs et l'ajout d'analytics
 
-## 🆕 Dernières évolutions (Juin 2024)
+## 🆕 Dernières évolutions (Juillet 2025)
 
 - Correction du bug d'affichage du stock sur la page produits (mapping `stockQuantity` vs `stock`)
 - Ajout de produits de test dans la catégorie « Céréales & Grains » pour tester le cross-selling
