@@ -76,8 +76,22 @@ Voir `.env.example` dans chaque app (backend, frontend, admin).
 - `npm run build` : Build complet
 - `npm run lint` : Lint global
 - `npm run test` : Tests backend
+- `npm run test:frontend` : Tests frontend
+- `npm run test:admin` : Tests admin
+- `npm run test:coverage` : Tests avec couverture
 
 Plus de détails dans [ROADMAP.md](./ROADMAP.md)
+
+## Tests
+
+Le projet dispose d'une suite de tests complète :
+
+- **Backend** : 232/233 tests passés (99.6% de succès)
+- **Frontend** : 34/34 tests passés (100% de succès)
+- **Admin** : 1/1 test passé (100% de succès)
+- **Couverture Backend** : 66.68% (statements, branches, functions, lines)
+
+Voir [TESTS_CORRECTIONS.md](./TESTS_CORRECTIONS.md) pour les détails des corrections effectuées.
 
 ---
 
@@ -100,6 +114,7 @@ Voir la structure détaillée dans [ROADMAP.md](./ROADMAP.md)
 - [Documentation API Backend](./REST.BACK.md)
 - [Roadmap & Stratégie](./ROADMAP.md)
 - [Rapport technique](./RAPPORT.md)
+- [Corrections des Tests](./TESTS_CORRECTIONS.md)
 
 ---
 
@@ -144,10 +159,11 @@ BEYANA est une plateforme e-commerce premium spécialisée dans les produits bio
 
 ### **Statut du Projet**
 
-- ✅ **Backend :** 100% fonctionnel (149/149 tests passent)
-- ✅ **Frontend :** 98% fonctionnel (17/17 pages créées et fonctionnelles)
-- ✅ **Admin :** MVP fonctionnel (dashboard, CRUD produits, multi-images, produits vedettes)
+- ✅ **Backend :** 99.6% fonctionnel (232/233 tests passent, couverture 66.68%)
+- ✅ **Frontend :** 100% fonctionnel (34/34 tests passent)
+- ✅ **Admin :** 100% fonctionnel (1/1 test passé, dashboard complet)
 - ✅ **Monorepo :** Configuration complète avec Turborepo et types partagés
+- ✅ **Tests :** 267/268 tests passés (99.6% de succès global)
 - 🔜 **Admin à finaliser :** gestion avancée des commandes, gestion utilisateurs, analytics
 
 ### **Problèmes Connus Frontend**
