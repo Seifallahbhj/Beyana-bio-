@@ -30,8 +30,8 @@ export const seedUsers = async () => {
     {
       firstName: "Admin",
       lastName: "User",
-      email: "admin@beyana.com",
-      password: "adminpassword",
+      email: "admin.beyana@gmail.com",
+      password: "Welcome0509",
       role: "admin",
     },
     {
@@ -117,8 +117,8 @@ const importData = async () => {
       {
         firstName: "Admin",
         lastName: "User",
-        email: "admin@example.com",
-        password: "adminpassword",
+        email: "admin.beyana@gmail.com",
+        password: "Welcome0509",
         role: "admin",
       },
       {

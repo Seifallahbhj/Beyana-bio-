@@ -63,6 +63,25 @@ Thumbs.db
 # Markdown (ignore tous les .md sauf README.md)
 *.md
 !README.md
-!RAPPORT.md
-!ROADMAP.md
-!REST.BACK.md 
+!REST.BACK.md
+
+# Monorepo apps/packages
+apps/*/node_modules/
+packages/*/node_modules/
+apps/*/.env*
+packages/*/.env*
+apps/*/.next/
+apps/*/dist/
+apps/*/build/
+apps/*/coverage/
+packages/*/.next/
+packages/*/dist/
+packages/*/build/
+packages/*/coverage/
+
+# Cache supplémentaire
+.cache/
+
+# Bases de test locales
+*.test.db
+*.test.sqlite 

@@ -4,6 +4,9 @@ import {
   getOrders,
   updateOrderStatus,
   loginAdmin,
+  getUsers,
+  updateUserRole,
+  deleteUser,
 } from "../controllers/AdminController";
 import { protect, admin } from "../middleware/authMiddleware";
 
@@ -20,5 +23,10 @@ router.use(admin);
 router.get("/stats", getDashboardStats);
 router.get("/orders", getOrders);
 router.put("/orders/:id", updateOrderStatus);
+
+// Routes de gestion des utilisateurs
+router.get("/users", getUsers);
+router.put("/users/:id/role", updateUserRole);
+router.delete("/users/:id", deleteUser);
 
 export default router;

@@ -4,10 +4,10 @@
 
 PASS src/__tests__/Sample.test.tsx
   Sample test
-    √ affiche un texte de test (33 ms)
+    √ affiche un texte de test (66 ms)
 
 Test Suites: 1 passed, 1 total
 Tests:       1 passed, 1 total
 Snapshots:   0 total
-Time:        3.73 s
+Time:        4.67 s
 Ran all test suites.

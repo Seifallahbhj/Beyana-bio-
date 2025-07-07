@@ -13,6 +13,9 @@ interface ProductFormData {
   category: string;
   images: string[];
   isFeatured?: boolean;
+  descriptionShort: string;
+  descriptionDetailed: string;
+  stockQuantity: number;
 }
 
 export default function ProductForm({
@@ -28,12 +31,17 @@ export default function ProductForm({
     category: initialData?.category || "",
     images: initialData?.images || [],
     isFeatured: initialData?.isFeatured || false,
+    descriptionShort: initialData?.descriptionShort || "",
+    descriptionDetailed: initialData?.descriptionDetailed || "",
+    stockQuantity: initialData?.stockQuantity || 0,
   });
   const [loading, setLoading] = useState(false);
   const categories = useCategories();
 
   const handleChange = (
-    e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>
+    e: React.ChangeEvent<
+      HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement
+    >
   ) => {
     const { name, value, type } = e.target;
     setForm({
@@ -50,10 +58,10 @@ export default function ProductForm({
       const file = files[i];
       const formData = new FormData();
       formData.append("file", file);
-      formData.append("upload_preset", "TON_UPLOAD_PRESET");
+      formData.append("upload_preset", "beyana_upload");
       try {
         const res = await fetch(
-          "https://api.cloudinary.com/v1_1/TON_CLOUD_NAME/image/upload",
+          "https://api.cloudinary.com/v1_1/beyana/image/upload",
           {
             method: "POST",
             body: formData,
@@ -197,6 +205,41 @@ export default function ProductForm({
           />
           Mettre en avant (produit vedette)
         </label>
+      </div>
+      <div>
+        <label className="block mb-1">Description courte</label>
+        <input
+          type="text"
+          name="descriptionShort"
+          value={form.descriptionShort}
+          onChange={handleChange}
+          required
+          className="border px-2 py-1 rounded w-full"
+        />
+      </div>
+      <div>
+        <label className="block mb-1">Description détaillée</label>
+        <textarea
+          name="descriptionDetailed"
+          value={form.descriptionDetailed}
+          onChange={handleChange}
+          required
+          className="border px-2 py-1 rounded w-full"
+          rows={4}
+        />
+      </div>
+      <div>
+        <label className="block mb-1">Quantité en stock</label>
+        <input
+          type="number"
+          name="stockQuantity"
+          value={form.stockQuantity}
+          onChange={handleChange}
+          required
+          min={0}
+          step={1}
+          className="border px-2 py-1 rounded w-full"
+        />
       </div>
       <button
         type="submit"
