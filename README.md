@@ -701,6 +701,8 @@ npm run lint:fix         # Corriger automatiquement
 
 ## 📞 **SUPPORT**
 
++216 58 84 34 33
+
 ### **Problèmes Courants**
 
 #### **Backend ne démarre pas**
@@ -886,3 +888,33 @@ Voir les README spécifiques dans chaque dossier pour les instructions détaill�
 - Refonte de la page de détail produit : structure professionnelle, badges dynamiques, cross-selling, etc.
 - Diagnostic et recommandations sur la gestion centralisée des images produits avec Cloudinary
 - Analyse UX et plan d'amélioration pour le bloc « Avis clients » (inspiration Greenweez)
+
+---
+
+## Mon parcours, mes acquis & ma préparation
+
+### Ce que j'ai appris pendant le Bootcamp
+
+Durant ce Bootcamp, j'ai énormément progressé :
+
+- J'ai appris à concevoir et développer une application web complète, du backend à l'interface utilisateur.
+- J'ai découvert l'importance de l'architecture, des tests, de la sécurité et de la documentation.
+- J'ai pris confiance dans l'utilisation d'outils modernes (Node.js, React, Next.js, MongoDB, CI/CD…).
+
+### Ma préparation pour la suite
+
+Ce projet m'a permis de :
+
+- Prendre de bonnes habitudes de développeur (organisation, rigueur, documentation).
+- Apprendre à chercher, à persévérer et à résoudre des problèmes concrets.
+- Me sentir prêt à intégrer une équipe tech, à apprendre encore et à relever de nouveaux défis.
+
+### Ma façon d'aborder les problèmes
+
+Quand je rencontre un obstacle, je :
+
+- Découpe le problème en étapes simples.
+- Cherche des solutions dans la doc ou auprès de la communauté.
+- Teste, corrige, puis documente ce que j'ai appris.
+
+Ce projet est le reflet de mon envie d'apprendre et de progresser dans le développement web.
