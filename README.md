@@ -891,7 +891,7 @@ Voir les README spécifiques dans chaque dossier pour les instructions détaill�
 
 ---
 
-## Mon parcours, mes acquis & ma préparation
+## **Mon parcours, mes acquis & ma préparation**
 
 ### Ce que j'ai appris pendant le Bootcamp
 
