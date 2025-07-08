@@ -17,6 +17,10 @@ coverage/
 # Env files
 .env*
 .env
+.env.local
+.env.development
+.env.test
+.env.production
 
 # TypeScript
 *.tsbuildinfo
@@ -63,7 +67,6 @@ Thumbs.db
 # Markdown (ignore tous les .md sauf README.md)
 *.md
 !README.md
-!REST.BACK.md
 
 # Monorepo apps/packages
 apps/*/node_modules/
@@ -84,4 +87,91 @@ packages/*/coverage/
 
 # Bases de test locales
 *.test.db
-*.test.sqlite 
+*.test.sqlite
+
+# Sécurité et confidentialité pour projet public
+# Fichiers de configuration sensibles
+config/secrets.json
+config/private.json
+config/database.json
+config/stripe.json
+
+# Clés API et tokens
+*.api-key
+*.secret
+stripe-secret-key.txt
+mongodb-connection-string.txt
+
+# Fichiers de backup et temporaires
+*.backup
+*.tmp
+*.temp
+backup/
+temp/
+
+# Fichiers de données sensibles
+data/users.json
+data/orders.json
+data/products.json
+data/private/
+
+# Fichiers de logs sensibles
+logs/
+*.error.log
+*.access.log
+
+# Fichiers de déploiement sensibles
+deploy/
+deployment/
+*.deploy
+
+# Fichiers de test avec données sensibles
+test-data/
+fixtures/private/
+mocks/private/
+
+# Fichiers de documentation privée
+docs/private/
+docs/internal/
+*.internal.md
+
+# Fichiers de monitoring et analytics
+analytics/
+monitoring/
+*.analytics
+
+# Fichiers de base de données
+*.sql
+*.sqlite3
+*.db3
+database/
+
+# Fichiers de certificats SSL/TLS
+ssl/
+certificates/
+*.crt
+*.key
+*.pem
+*.p12
+*.pfx
+
+# Fichiers de configuration serveur
+nginx.conf
+apache.conf
+*.conf
+
+# Fichiers de sauvegarde
+backups/
+*.backup
+*.bak
+*.old
+
+# Fichiers de cache système
+.cache/
+cache/
+*.cache
+
+# Fichiers de lock spécifiques
+package-lock.json.backup
+yarn.lock.backup
+pnpm-lock.yaml.backup 
