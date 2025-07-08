@@ -113,7 +113,7 @@ describe("Order Workflow Integration Tests", () => {
       const orderId = createResponse.body.data._id;
 
       // Step 2: Simulate payment (mock Stripe)
-      const mockPaymentIntent = {
+      const _mockPaymentIntent = {
         id: "pi_test123",
         status: "succeeded",
         amount: 23000,

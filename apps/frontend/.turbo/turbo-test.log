@@ -3,97 +3,62 @@
 > jest
 
 PASS src/__tests__/Sample.test.tsx
+  Sample test
+    √ affiche un texte de test (80 ms)
+
 PASS src/__tests__/components/ProductCard.test.tsx
-  ● Console
-
-    console.error
-      Warning: An update to ProductCard inside a test was not wrapped in act(...).
-      
-      When testing, code that causes React state updates should be wrapped into act(...):
-      
-      act(() => {
-        /* fire events that update state */
-      });
-      /* assert on the output */
-      
-      This ensures that you're testing the behavior the user would see in the browser. Learn more at https://reactjs.org/link/wrap-tests-with-act
-          at ProductCard (C:\Users\seifa\Desktop\beyana-main\apps\frontend\src\components\features\ProductCard.tsx:23:12)
-
-    [0m [90m 52 |[39m         [36mconst[39m response [33m=[39m [36mawait[39m apiService[33m.[39maddToWishlist(product[33m.[39m_id)[33m;[39m
-     [90m 53 |[39m         [36mif[39m (response[33m.[39msuccess) {
-    [31m[1m>[22m[39m[90m 54 |[39m           setIsWishlisted([36mtrue[39m)[33m;[39m
-     [90m    |[39m           [31m[1m^[22m[39m
-     [90m 55 |[39m           setAnimateHeart([36mtrue[39m)[33m;[39m
-     [90m 56 |[39m           [36mawait[39m refreshProfile()[33m;[39m
-     [90m 57 |[39m           toast[33m.[39msuccess([32m"Ajouté aux favoris !"[39m)[33m;[39m[0m
-
-      at printWarning (../../node_modules/react-dom/cjs/react-dom.development.js:86:30)
-      at error (../../node_modules/react-dom/cjs/react-dom.development.js:60:7)
-      at warnIfUpdatesNotWrappedWithActDEV (../../node_modules/react-dom/cjs/react-dom.development.js:27628:9)
-      at scheduleUpdateOnFiber (../../node_modules/react-dom/cjs/react-dom.development.js:25547:5)
-      at dispatchSetState (../../node_modules/react-dom/cjs/react-dom.development.js:16708:7)
-      at handleAddToWishlist (src/components/features/ProductCard.tsx:54:11)
-
-    console.error
-      Warning: An update to ProductCard inside a test was not wrapped in act(...).
-      
-      When testing, code that causes React state updates should be wrapped into act(...):
-      
-      act(() => {
-        /* fire events that update state */
-      });
-      /* assert on the output */
-      
-      This ensures that you're testing the behavior the user would see in the browser. Learn more at https://reactjs.org/link/wrap-tests-with-act
-          at ProductCard (C:\Users\seifa\Desktop\beyana-main\apps\frontend\src\components\features\ProductCard.tsx:23:12)
-
-    [0m [90m 53 |[39m         [36mif[39m (response[33m.[39msuccess) {
-     [90m 54 |[39m           setIsWishlisted([36mtrue[39m)[33m;[39m
-    [31m[1m>[22m[39m[90m 55 |[39m           setAnimateHeart([36mtrue[39m)[33m;[39m
-     [90m    |[39m           [31m[1m^[22m[39m
-     [90m 56 |[39m           [36mawait[39m refreshProfile()[33m;[39m
-     [90m 57 |[39m           toast[33m.[39msuccess([32m"Ajouté aux favoris !"[39m)[33m;[39m
-     [90m 58 |[39m         }[0m
-
-      at printWarning (../../node_modules/react-dom/cjs/react-dom.development.js:86:30)
-      at error (../../node_modules/react-dom/cjs/react-dom.development.js:60:7)
-      at warnIfUpdatesNotWrappedWithActDEV (../../node_modules/react-dom/cjs/react-dom.development.js:27628:9)
-      at scheduleUpdateOnFiber (../../node_modules/react-dom/cjs/react-dom.development.js:25547:5)
-      at dispatchSetState (../../node_modules/react-dom/cjs/react-dom.development.js:16708:7)
-      at handleAddToWishlist (src/components/features/ProductCard.tsx:55:11)
-
-    console.error
-      Warning: An update to ProductCard inside a test was not wrapped in act(...).
-      
-      When testing, code that causes React state updates should be wrapped into act(...):
-      
-      act(() => {
-        /* fire events that update state */
-      });
-      /* assert on the output */
-      
-      This ensures that you're testing the behavior the user would see in the browser. Learn more at https://reactjs.org/link/wrap-tests-with-act
-          at ProductCard (C:\Users\seifa\Desktop\beyana-main\apps\frontend\src\components\features\ProductCard.tsx:23:12)
-
-    [0m [90m 69 |[39m       toast[33m.[39merror([32m"Erreur lors de la mise à jour des favoris"[39m)[33m;[39m
-     [90m 70 |[39m     } [36mfinally[39m {
-    [31m[1m>[22m[39m[90m 71 |[39m       setIsLoadingWishlist([36mfalse[39m)[33m;[39m
-     [90m    |[39m       [31m[1m^[22m[39m
-     [90m 72 |[39m       setTimeout(() [33m=>[39m setAnimateHeart([36mfalse[39m)[33m,[39m [35m400[39m)[33m;[39m
-     [90m 73 |[39m     }
-     [90m 74 |[39m   }[33m;[39m[0m
-
-      at printWarning (../../node_modules/react-dom/cjs/react-dom.development.js:86:30)
-      at error (../../node_modules/react-dom/cjs/react-dom.development.js:60:7)
-      at warnIfUpdatesNotWrappedWithActDEV (../../node_modules/react-dom/cjs/react-dom.development.js:27628:9)
-      at scheduleUpdateOnFiber (../../node_modules/react-dom/cjs/react-dom.development.js:25547:5)
-      at dispatchSetState (../../node_modules/react-dom/cjs/react-dom.development.js:16708:7)
-      at handleAddToWishlist (src/components/features/ProductCard.tsx:71:7)
+  ProductCard Component
+    Rendering
+      √ should render product information correctly (213 ms)
+      √ should display stock status correctly when in stock (242 ms)
+      √ should display out of stock status when stock is 0 (36 ms)
+      √ should display low stock warning when stock is low (23 ms)
+      √ should render product attributes as badges (37 ms)
+    Cart Interactions
+      √ should show add to cart button when product is not in cart (44 ms)
+      √ should call addToCart when add button is clicked (67 ms)
+      √ should disable add to cart button when out of stock (21 ms)
+    Wishlist functionality
+      √ should show add to wishlist button when product is not in wishlist (40 ms)
+      √ should call addToWishlist API when wishlist button is clicked (74 ms)
+      √ should handle wishlist API errors gracefully (65 ms)
+    Price Display
+      √ should format price correctly with euro symbol (24 ms)
+      √ should handle decimal prices correctly (18 ms)
+      √ should handle zero price correctly (33 ms)
+    Edge Cases
+      √ should handle product without images gracefully (20 ms)
+      √ should handle product without attributes gracefully (22 ms)
+      √ should handle missing category gracefully (15 ms)
 
 PASS src/__tests__/hooks/useProducts.test.tsx
+  useProducts Hook
+    useProducts with default parameters
+      √ should fetch products successfully (98 ms)
+      √ should handle API errors (92 ms)
+      √ should show loading state initially (9 ms)
+    useProducts with filters
+      √ should fetch products with search filter (78 ms)
+      √ should fetch products with category filter (77 ms)
+      √ should fetch products with price range filter (208 ms)
+      √ should fetch products with multiple filters (131 ms)
+    useProducts pagination
+      √ should handle pagination correctly (73 ms)
+      √ should use default pagination when not specified (102 ms)
+    useProducts error handling
+      √ should handle network errors (85 ms)
+      √ should handle API response errors (115 ms)
+      √ should handle malformed API responses (96 ms)
+    useProducts caching
+      √ should cache results and avoid duplicate requests (158 ms)
+      √ should make new requests for different parameters (149 ms)
+    useProducts edge cases
+      √ should handle empty product list (76 ms)
+      √ should handle very large product lists (77 ms)
+      √ should handle special characters in filters (77 ms)
 
 Test Suites: 3 passed, 3 total
-Tests:       34 passed, 34 total
+Tests:       35 passed, 35 total
 Snapshots:   0 total
-Time:        6.532 s
+Time:        6.425 s
 Ran all test suites.

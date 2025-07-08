@@ -14,6 +14,16 @@ module.exports = {
       {
         tsconfig: "tsconfig.json",
         useESM: false,
+        isolatedModules: true,
+        compilerOptions: {
+          module: "commonjs",
+          target: "es2017",
+          esModuleInterop: true,
+          allowSyntheticDefaultImports: true,
+          skipLibCheck: true,
+          noEmit: true,
+          moduleResolution: "node",
+        },
       },
     ],
   },
@@ -47,4 +57,25 @@ module.exports = {
     "!src/**/index.ts",
     "!src/server.ts",
   ],
+  globals: {
+    "ts-jest": {
+      tsconfig: "tsconfig.json",
+      useESM: false,
+      compilerOptions: {
+        module: "commonjs",
+        target: "es2017",
+        esModuleInterop: true,
+        allowSyntheticDefaultImports: true,
+        skipLibCheck: true,
+        noEmit: true,
+        moduleResolution: "node",
+      },
+    },
+  },
+  transformIgnorePatterns: ["node_modules/(?!(stripe|@stripe)/)"],
+  extensionsToTreatAsEsm: [],
+  moduleDirectories: ["node_modules", "src"],
+  testEnvironmentOptions: {
+    url: "http://localhost",
+  },
 };

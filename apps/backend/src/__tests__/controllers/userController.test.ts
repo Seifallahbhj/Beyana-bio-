@@ -139,7 +139,7 @@ describe("User Controller", () => {
     });
 
     it("should handle bcrypt comparison errors", async () => {
-      const user = await User.create({
+      const _user = await User.create({
         firstName: "Test",
         lastName: "User",
         email: "test@example.com",

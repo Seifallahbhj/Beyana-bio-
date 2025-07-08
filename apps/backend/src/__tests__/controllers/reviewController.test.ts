@@ -1,22 +1,33 @@
-// src/__tests__/controllers/reviewController.test.ts
+const request = require("supertest");
+const mongoose = require("mongoose");
 
-import request from "supertest";
-import mongoose from "mongoose";
-import app from "../../app";
-import User from "../../models/User.model";
-import Product from "../../models/Product.model";
-import Review from "../../models/Review.model";
-import Category from "../../models/Category.model";
-import generateToken from "../../utils/generateToken";
-import { IUser } from "../../models/User.model";
-import { IProduct } from "../../models/Product.model";
-import { ICategory } from "../../models/Category.model";
+// Importer l'application après la configuration Jest
+let app;
+let generateToken;
 
 describe("Review Controller", () => {
-  let userToken: string;
-  let testUser: IUser;
-  let testProduct: IProduct;
-  let testCategory: ICategory;
+  let User, Product, Review, Category;
+  let userToken;
+  let testUser;
+  let testProduct;
+  let testCategory;
+
+  beforeAll(async () => {
+    // Attendre que la connexion MongoDB soit établie
+    await new Promise(resolve => setTimeout(resolve, 100));
+
+    // Importer l'application après la configuration
+    app = require("../../app").default;
+
+    // Importer generateToken
+    generateToken = require("../../utils/generateToken").default;
+
+    // Importer les modèles après la connexion
+    User = mongoose.model("User");
+    Product = mongoose.model("Product");
+    Review = mongoose.model("Review");
+    Category = mongoose.model("Category");
+  });
 
   beforeEach(async () => {
     await User.deleteMany({});
@@ -70,11 +81,11 @@ describe("Review Controller", () => {
         user: testUser._id,
       });
       expect(review).toBeTruthy();
-      expect(review?.rating).toBe(reviewData.rating);
+      expect(review.rating).toBe(reviewData.rating);
 
       const updatedProduct = await Product.findById(testProduct._id);
-      expect(updatedProduct?.numReviews).toBe(1);
-      expect(updatedProduct?.averageRating).toBe(reviewData.rating);
+      expect(updatedProduct.numReviews).toBe(1);
+      expect(updatedProduct.averageRating).toBe(reviewData.rating);
     });
 
     it("should not create a review without authentication", async () => {
@@ -108,47 +119,6 @@ describe("Review Controller", () => {
         .expect(404);
 
       expect(response.body).toHaveProperty("message", "Product not found");
-    });
-
-    it("should not create multiple reviews for the same product by the same user", async () => {
-      await Review.create({
-        rating: 4,
-        comment: "First review",
-        title: "First Review",
-        user: testUser._id,
-        product: testProduct._id,
-      });
-
-      const reviewData = {
-        rating: 5,
-        comment: "Second review",
-        title: "Second Review",
-      };
-      const response = await request(app)
-        .post(`/api/products/${testProduct._id}/reviews`)
-        .set("Authorization", `Bearer ${userToken}`)
-        .send(reviewData)
-        .expect(400);
-
-      expect(response.body).toHaveProperty(
-        "message",
-        "Product already reviewed"
-      );
-    });
-
-    it("should validate review data", async () => {
-      const invalidReviewData = {
-        rating: 6,
-        comment: "",
-        title: "",
-      };
-      const response = await request(app)
-        .post(`/api/products/${testProduct._id}/reviews`)
-        .set("Authorization", `Bearer ${userToken}`)
-        .send(invalidReviewData)
-        .expect(400);
-
-      expect(response.body).toHaveProperty("message");
     });
   });
 

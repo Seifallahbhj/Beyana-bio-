@@ -1,5 +1,11 @@
 import React from "react";
-import { render, screen, fireEvent } from "@testing-library/react";
+import {
+  render,
+  screen,
+  fireEvent,
+  act,
+  waitFor,
+} from "@testing-library/react";
 import "@testing-library/jest-dom";
 import ProductCard from "../../components/features/ProductCard";
 
@@ -175,7 +181,10 @@ describe("ProductCard Component", () => {
       const addButton = screen.getByRole("button", {
         name: /ajouter au panier/i,
       });
-      fireEvent.click(addButton);
+
+      act(() => {
+        fireEvent.click(addButton);
+      });
 
       expect(mockAddToCart).toHaveBeenCalledWith(mockProduct, 1);
     });
@@ -207,9 +216,31 @@ describe("ProductCard Component", () => {
       const wishlistButton = screen.getByRole("button", {
         name: /ajouter aux favoris/i,
       });
-      fireEvent.click(wishlistButton);
 
-      expect(mockApiService.addToWishlist).toHaveBeenCalledWith("1");
+      await act(async () => {
+        fireEvent.click(wishlistButton);
+        // Attendre que les mises à jour d'état soient terminées
+        await waitFor(() => {
+          expect(mockApiService.addToWishlist).toHaveBeenCalledWith("1");
+        });
+      });
+    });
+
+    it("should handle wishlist API errors gracefully", async () => {
+      mockApiService.addToWishlist.mockRejectedValue(new Error("API Error"));
+      render(<ProductCard product={mockProduct} />);
+
+      const wishlistButton = screen.getByRole("button", {
+        name: /ajouter aux favoris/i,
+      });
+
+      await act(async () => {
+        fireEvent.click(wishlistButton);
+        // Attendre que les mises à jour d'état soient terminées
+        await waitFor(() => {
+          expect(mockApiService.addToWishlist).toHaveBeenCalledWith("1");
+        });
+      });
     });
   });
 

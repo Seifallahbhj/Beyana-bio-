@@ -17,4 +17,12 @@ module.exports = {
     "^@/(.*)$": "<rootDir>/src/$1",
   },
   testMatch: ["**/__tests__/**/*.(ts|tsx|js)", "**/*.(test|spec).(ts|tsx|js)"],
+  testEnvironmentOptions: {
+    customExportConditions: ["node", "node-addons"],
+  },
+  verbose: true,
+  clearMocks: true,
+  collectCoverage: false,
+  coverageDirectory: "coverage",
+  coverageReporters: ["text", "lcov", "html"],
 };

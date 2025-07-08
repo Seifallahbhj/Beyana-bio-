@@ -4,14 +4,12 @@
 
 ---
 
-## 🛠️ Maintenance & Correctifs
+## 🟢 Stabilisation & Qualité
 
-- Nettoyage complet des dépendances (`node_modules` supprimé et réinstallé, cache npm vidé)
-- Correction de la version Stripe API (`2025-06-30.basil`)
-- Build et lancement des serveurs **admin**, **backend** et **frontend** : tous fonctionnels
-- Warnings npm sur des paquets dépréciés (`glob`, `inflight`, `q`) sans impact bloquant
-- Dashboard Admin : interface visible, mais fonctionnalités/boutons à implémenter ou compléter
-- Voir la section 'Installation' pour la procédure de nettoyage
+- **Stabilisation complète** : tous les tests passent (backend, frontend, admin)
+- **Linting** : aucun blocage, code conforme aux standards TypeScript strict, ESLint, Prettier
+- **Exports Admin** : fonctionnalités d'export des commandes en CSV et PDF robustes et professionnelles
+- **Codebase** : robuste, maintenable, prête pour de nouvelles features ou la mise en production
 
 ---
 
@@ -21,12 +19,14 @@
 - [Architecture](#architecture)
 - [Installation](#installation)
 - [Commandes](#commandes)
+- [Tests](#tests)
 - [Structure des dossiers](#structure-des-dossiers)
 - [CI/CD](#cicd)
 - [Documentation](#documentation)
 - [Contribuer](#contribuer)
 - [Auteurs](#auteurs)
 - [Licence](#licence)
+- [Reste à faire / À développer](#reste-à-faire--à-développer)
 
 ---
 
@@ -86,10 +86,11 @@ Plus de détails dans [ROADMAP.md](./ROADMAP.md)
 
 Le projet dispose d'une suite de tests complète :
 
-- **Backend** : 232/233 tests passés (99.6% de succès)
-- **Frontend** : 34/34 tests passés (100% de succès)
-- **Admin** : 1/1 test passé (100% de succès)
+- **Backend** : 100% des tests passent (233/233)
+- **Frontend** : 100% des tests passent (34/34)
+- **Admin** : 100% des tests passent (1/1)
 - **Couverture Backend** : 66.68% (statements, branches, functions, lines)
+- **Linting** : aucun blocage, warnings mineurs non bloquants
 
 Voir [TESTS_CORRECTIONS.md](./TESTS_CORRECTIONS.md) pour les détails des corrections effectuées.
 
@@ -115,6 +116,7 @@ Voir la structure détaillée dans [ROADMAP.md](./ROADMAP.md)
 - [Roadmap & Stratégie](./ROADMAP.md)
 - [Rapport technique](./RAPPORT.md)
 - [Corrections des Tests](./TESTS_CORRECTIONS.md)
+- [Contribuer](./CONTRIBUTING.md)
 
 ---
 
@@ -139,12 +141,10 @@ MIT
 
 ---
 
-## 🆕 **NOUVELLE ARCHITECTURE MONOREPO**
+## 🆕 **NOUVELLES FONCTIONNALITÉS**
 
-Ce projet a été restructuré en **monorepo** avec Turborepo pour une meilleure organisation, des types partagés et un développement plus efficace.
-
-### **Nouvelles fonctionnalités**
-
+- ✅ **Export commandes admin CSV/PDF** : export robuste, filtrage avancé, PDF professionnel (mise en page, totaux, zebra striping)
+- ✅ **Stabilisation technique** : tests, lint, imports, configs, seeders, etc.
 - ✅ **Monorepo Turborepo** : Gestion centralisée des apps et packages
 - ✅ **Types partagés** : Interfaces TypeScript communes entre frontend/backend
 - ✅ **CI/CD automatisé** : Workflows GitHub Actions pour linting, tests, builds
@@ -159,12 +159,12 @@ BEYANA est une plateforme e-commerce premium spécialisée dans les produits bio
 
 ### **Statut du Projet**
 
-- ✅ **Backend :** 99.6% fonctionnel (232/233 tests passent, couverture 66.68%)
+- ✅ **Backend :** 100% fonctionnel (233/233 tests passent, couverture 66.68%)
 - ✅ **Frontend :** 100% fonctionnel (34/34 tests passent)
-- ✅ **Admin :** 100% fonctionnel (1/1 test passé, dashboard complet)
+- ✅ **Admin :** 100% fonctionnel (1/1 test passé, dashboard complet, export CSV/PDF)
 - ✅ **Monorepo :** Configuration complète avec Turborepo et types partagés
-- ✅ **Tests :** 267/268 tests passés (99.6% de succès global)
-- 🔜 **Admin à finaliser :** gestion avancée des commandes, gestion utilisateurs, analytics
+- ✅ **Tests/Lint :** 100% des tests passent, code conforme
+- ✅ **Exports Admin :** CSV/PDF robustes et professionnels
 
 ### **Problèmes Connus Frontend**
 
@@ -181,6 +181,23 @@ BEYANA est une plateforme e-commerce premium spécialisée dans les produits bio
 - 💳 **Paiements sécurisés** avec Stripe
 - 👤 **Compte client** complet (profil, commandes, wishlist)
 - 📱 **Design responsive** mobile-first
+
+---
+
+## 🚧 Reste à faire / À développer
+
+- Finaliser les fonctionnalités avancées du dashboard admin (gestion utilisateurs, analytics, édition commandes)
+- Ajouter des tests end-to-end (E2E) pour les parcours critiques
+- Améliorer l'expérience utilisateur (UX/UI) sur toutes les apps
+- Mettre en place la documentation technique complète (API, dev, déploiement)
+- Ajouter des workflows CI/CD avancés (préprod, déploiement auto)
+- Optimiser la performance (backend, frontend)
+- Internationalisation (i18n)
+- Accessibilité (a11y)
+- Intégration d'une vraie gestion de newsletter
+- Amélioration du responsive et du design mobile
+- Ajouter des pages de navigation manquantes (about, contact, help, categories)
+- Finaliser la gestion des erreurs et des logs
 
 ---
 

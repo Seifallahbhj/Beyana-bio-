@@ -1,5 +1,5 @@
 "use client";
-import { useState, useEffect } from "react";
+import { useState, useEffect, useCallback } from "react";
 import apiService from "@/services/api";
 import toast from "react-hot-toast";
 
@@ -23,7 +23,7 @@ export default function UsersPage() {
   const [searchTerm, setSearchTerm] = useState("");
   const [roleFilter, setRoleFilter] = useState("");
 
-  const fetchUsers = async () => {
+  const fetchUsers = useCallback(async () => {
     setLoading(true);
     try {
       const token = localStorage.getItem("adminToken");
@@ -43,11 +43,11 @@ export default function UsersPage() {
     } finally {
       setLoading(false);
     }
-  };
+  }, [page, searchTerm, roleFilter]);
 
   useEffect(() => {
     fetchUsers();
-  }, [page, searchTerm, roleFilter]);
+  }, [fetchUsers]);
 
   const updateUserRole = async (userId: string, isAdmin: boolean) => {
     try {
@@ -246,7 +246,7 @@ export default function UsersPage() {
                           </select>
                           <button
                             onClick={() => deleteUser(user._id)}
-                            className="text-red-600 hover:text-red-900 text-sm"
+                            className="text-red-600 hover:text-red-900"
                           >
                             Supprimer
                           </button>

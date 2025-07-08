@@ -1,9 +1,9 @@
 /* eslint-disable no-console */
 import mongoose from "mongoose";
 import dotenv from "dotenv";
-import User from "../models/User.model";
-import Product from "../models/Product.model";
-import Category from "../models/Category.model";
+import User, { IUser } from "../models/User.model";
+import Product, { IProduct } from "../models/Product.model";
+import Category, { ICategory } from "../models/Category.model";
 import { products, categories } from "../data/products"; // Importer les données
 
 // Charger les variables d'environnement
@@ -19,18 +19,20 @@ const connectDB = async () => {
     await mongoose.connect(mongoUri);
     console.log("MongoDB Connected for Seeding...");
   } catch (error) {
-    console.error(`Error: ${(error as Error).message}`);
+    console.error(
+      `Error: ${error instanceof Error ? error.message : String(error)}`
+    );
     process.exit(1);
   }
 };
 
 // Export individual functions for testing
-export const seedUsers = async () => {
+export const seedUsers = async (): Promise<IUser[]> => {
   const usersToCreate = [
     {
       firstName: "Admin",
       lastName: "User",
-      email: "admin.beyana@gmail.com",
+      email: "admin@beyana.com",
       password: "Welcome0509",
       role: "admin",
     },
@@ -43,21 +45,42 @@ export const seedUsers = async () => {
     },
   ];
 
-  const createdUsers = await Promise.all(
-    usersToCreate.map(user => User.create(user))
-  );
+  const createdUsers: IUser[] = [];
+
+  for (const userData of usersToCreate) {
+    // Check if user already exists
+    const existingUser = await User.findOne({ email: userData.email });
+    if (!existingUser) {
+      const user = await User.create(userData);
+      createdUsers.push(user);
+    } else {
+      createdUsers.push(existingUser);
+    }
+  }
 
   return createdUsers;
 };
 
-export const seedCategories = async () => {
-  const createdCategories = await Promise.all(
-    categories.map(category => Category.create(category))
-  );
+export const seedCategories = async (): Promise<ICategory[]> => {
+  const createdCategories: ICategory[] = [];
+
+  for (const categoryData of categories) {
+    // Check if category already exists
+    const existingCategory = await Category.findOne({
+      name: categoryData.name,
+    });
+    if (!existingCategory) {
+      const category = await Category.create(categoryData);
+      createdCategories.push(category);
+    } else {
+      createdCategories.push(existingCategory);
+    }
+  }
+
   return createdCategories;
 };
 
-export const seedProducts = async () => {
+export const seedProducts = async (): Promise<IProduct[]> => {
   const existingCategories = await Category.find({});
   const existingUsers = await User.find({});
 
@@ -83,9 +106,19 @@ export const seedProducts = async () => {
     user: existingUsers[0]._id, // Associer à l'admin
   }));
 
-  const createdProducts = await Promise.all(
-    productsToCreate.map(product => Product.create(product))
-  );
+  const createdProducts: IProduct[] = [];
+
+  for (const productData of productsToCreate) {
+    // Check if product already exists
+    const existingProduct = await Product.findOne({ name: productData.name });
+    if (!existingProduct) {
+      const product = await Product.create(productData);
+      createdProducts.push(product);
+    } else {
+      createdProducts.push(existingProduct);
+    }
+  }
+
   return createdProducts;
 };
 
@@ -117,22 +150,31 @@ const importData = async () => {
       {
         firstName: "Admin",
         lastName: "User",
-        email: "admin.beyana@gmail.com",
+        email: "admin@beyana.com",
         password: "Welcome0509",
         role: "admin",
       },
       {
-        firstName: "John",
-        lastName: "Doe",
-        email: "john.doe@example.com",
+        firstName: "Customer",
+        lastName: "User",
+        email: "customer@beyana.com",
         password: "password123",
-        role: "customer", // Spécifier le rôle explicitement
+        role: "customer",
       },
     ];
 
-    const createdUsers = await Promise.all(
-      usersToCreate.map(user => User.create(user))
-    );
+    const createdUsers: IUser[] = [];
+
+    for (const userData of usersToCreate) {
+      // Check if user already exists
+      const existingUser = await User.findOne({ email: userData.email });
+      if (!existingUser) {
+        const user = await User.create(userData);
+        createdUsers.push(user);
+      } else {
+        createdUsers.push(existingUser);
+      }
+    }
 
     console.log("Users imported.");
 
@@ -140,9 +182,20 @@ const importData = async () => {
     console.log("Importing categories...");
     // Nous utilisons Promise.all avec map pour créer chaque catégorie individuellement,
     // ce qui garantit que le middleware 'pre-save' (pour le slug) est exécuté.
-    const createdCategories = await Promise.all(
-      categories.map(category => Category.create(category))
-    );
+    const createdCategories: ICategory[] = [];
+
+    for (const categoryData of categories) {
+      // Check if category already exists
+      const existingCategory = await Category.findOne({
+        name: categoryData.name,
+      });
+      if (!existingCategory) {
+        const category = await Category.create(categoryData);
+        createdCategories.push(category);
+      } else {
+        createdCategories.push(existingCategory);
+      }
+    }
     console.log("Categories imported.");
 
     // 4. Mapper les noms de catégorie à leurs IDs
@@ -163,13 +216,21 @@ const importData = async () => {
 
     // 6. Insérer les produits (en utilisant create pour déclencher les hooks)
     console.log("Importing products...");
-    await Promise.all(productsToCreate.map(product => Product.create(product)));
+    for (const productData of productsToCreate) {
+      // Check if product already exists
+      const existingProduct = await Product.findOne({ name: productData.name });
+      if (!existingProduct) {
+        await Product.create(productData);
+      }
+    }
     console.log("Products imported.");
 
     console.log("Data Imported Successfully!");
     process.exit();
   } catch (error) {
-    console.error(`Error during data import: ${(error as Error).message}`);
+    console.error(
+      `Error during data import: ${error instanceof Error ? error.message : String(error)}`
+    );
     process.exit(1);
   }
 };

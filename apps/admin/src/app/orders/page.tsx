@@ -1,7 +1,10 @@
 "use client";
-import { useState, useEffect } from "react";
+import { useState, useEffect, useCallback } from "react";
 import apiService from "@/services/api";
 import toast from "react-hot-toast";
+import OrderFilters from "@/components/orders/OrderFilters";
+import OrderExportButtons from "@/components/orders/OrderExportButtons";
+import OrdersTable from "@/components/orders/OrdersTable";
 
 interface Order {
   _id: string;
@@ -36,50 +39,34 @@ interface Order {
   };
 }
 
-const STATUS_OPTIONS = [
-  { value: "", label: "Tous les statuts" },
-  { value: "pending", label: "En attente" },
-  { value: "processing", label: "En cours" },
-  { value: "shipped", label: "Expédiée" },
-  { value: "delivered", label: "Livrée" },
-  { value: "cancelled", label: "Annulée" },
-];
-
-const getStatusColor = (status: string) => {
-  switch (status) {
-    case "pending":
-      return "bg-yellow-100 text-yellow-800";
-    case "processing":
-      return "bg-blue-100 text-blue-800";
-    case "shipped":
-      return "bg-purple-100 text-purple-800";
-    case "delivered":
-      return "bg-green-100 text-green-800";
-    case "cancelled":
-      return "bg-red-100 text-red-800";
-    default:
-      return "bg-gray-100 text-gray-800";
-  }
-};
+interface Filters {
+  status: string;
+  startDate: string;
+  endDate: string;
+  search: string;
+}
 
 export default function OrdersPage() {
   const [orders, setOrders] = useState<Order[]>([]);
   const [loading, setLoading] = useState(true);
   const [page, setPage] = useState(1);
   const [totalPages, setTotalPages] = useState(1);
-  const [statusFilter, setStatusFilter] = useState("");
-  const [startDate, setStartDate] = useState("");
-  const [endDate, setEndDate] = useState("");
+  const [filters, setFilters] = useState<Filters>({
+    status: "",
+    startDate: "",
+    endDate: "",
+    search: "",
+  });
 
-  const fetchOrders = async () => {
+  const fetchOrders = useCallback(async () => {
     setLoading(true);
     try {
       const token = localStorage.getItem("adminToken");
       let url = `/admin/orders?page=${page}&limit=10`;
 
-      if (statusFilter) url += `&status=${statusFilter}`;
-      if (startDate) url += `&startDate=${startDate}`;
-      if (endDate) url += `&endDate=${endDate}`;
+      if (filters.status) url += `&status=${filters.status}`;
+      if (filters.startDate) url += `&startDate=${filters.startDate}`;
+      if (filters.endDate) url += `&endDate=${filters.endDate}`;
 
       const res = await apiService.get(url, {
         headers: { Authorization: `Bearer ${token}` },
@@ -92,11 +79,60 @@ export default function OrdersPage() {
     } finally {
       setLoading(false);
     }
-  };
+  }, [page, filters]);
 
   useEffect(() => {
     fetchOrders();
-  }, [page, statusFilter, startDate, endDate]);
+  }, [fetchOrders]);
+
+  const handleFilterChange = (newFilters: Partial<Filters>) => {
+    setFilters(prev => ({
+      ...prev,
+      ...newFilters,
+    }));
+    setPage(1);
+  };
+
+  const handleResetFilters = () => {
+    setFilters({
+      status: "",
+      startDate: "",
+      endDate: "",
+      search: "",
+    });
+    setPage(1);
+  };
+
+  const handleViewInvoice = (orderId: string) => {
+    const token = localStorage.getItem("adminToken");
+    const url = `${process.env.NEXT_PUBLIC_API_URL}/orders/${orderId}/invoice`;
+
+    fetch(url, {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    })
+      .then(response => {
+        if (!response.ok) {
+          throw new Error("Erreur lors de la génération de la facture");
+        }
+        return response.blob();
+      })
+      .then(blob => {
+        const url = window.URL.createObjectURL(blob);
+        const link = document.createElement("a");
+        link.href = url;
+        link.setAttribute("download", `facture-${orderId}.pdf`);
+        document.body.appendChild(link);
+        link.click();
+        link.remove();
+        window.URL.revokeObjectURL(url);
+      })
+      .catch(error => {
+        console.error("Erreur facture PDF:", error);
+        toast.error("Erreur lors de la génération de la facture");
+      });
+  };
 
   const updateOrderStatus = async (orderId: string, newStatus: string) => {
     try {
@@ -115,14 +151,46 @@ export default function OrdersPage() {
     }
   };
 
-  const formatDate = (dateString: string) => {
-    return new Date(dateString).toLocaleDateString("fr-FR", {
-      year: "numeric",
-      month: "long",
-      day: "numeric",
-      hour: "2-digit",
-      minute: "2-digit",
-    });
+  const handlePDFExport = () => {
+    const token = localStorage.getItem("adminToken");
+    const params = new URLSearchParams();
+    if (filters.status) params.append("status", filters.status);
+    if (filters.startDate) params.append("startDate", filters.startDate);
+    if (filters.endDate) params.append("endDate", filters.endDate);
+
+    // Ajoute un fallback si la variable d'env est undefined
+    const apiUrl =
+      process.env.NEXT_PUBLIC_API_URL || "http://localhost:5000/api";
+    console.log("API URL PDF:", apiUrl); // Debug
+    const url = `${apiUrl}/admin/orders/export/pdf?${params.toString()}`;
+    console.log("Full PDF URL:", url); // Debug
+
+    fetch(url, {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    })
+      .then(response => {
+        if (!response.ok) throw new Error("Erreur lors de l'export PDF");
+        return response.blob();
+      })
+      .then(blob => {
+        const url = window.URL.createObjectURL(blob);
+        const link = document.createElement("a");
+        link.href = url;
+        link.setAttribute(
+          "download",
+          `commandes_${new Date().toISOString().split("T")[0]}.pdf`
+        );
+        document.body.appendChild(link);
+        link.click();
+        link.remove();
+        window.URL.revokeObjectURL(url);
+      })
+      .catch(error => {
+        console.error("Erreur export PDF:", error);
+        alert("Erreur lors de l'export PDF");
+      });
   };
 
   return (
@@ -130,190 +198,53 @@ export default function OrdersPage() {
       <div className="mb-6">
         <h1 className="text-2xl font-bold mb-4">Gestion des Commandes</h1>
 
-        {/* Filtres */}
-        <div className="grid grid-cols-1 md:grid-cols-4 gap-4 mb-6">
-          <div>
-            <label className="block text-sm font-medium text-gray-700 mb-1">
-              Statut
-            </label>
-            <select
-              value={statusFilter}
-              onChange={e => {
-                setStatusFilter(e.target.value);
-                setPage(1);
-              }}
-              className="w-full border border-gray-300 rounded px-3 py-2"
-            >
-              {STATUS_OPTIONS.map(option => (
-                <option key={option.value} value={option.value}>
-                  {option.label}
-                </option>
-              ))}
-            </select>
-          </div>
+        {/* Boutons d'export */}
+        <OrderExportButtons
+          filters={filters}
+          onExportCSV={() => {}} // Géré directement dans le composant
+          onExportPDF={handlePDFExport}
+          isLoading={loading}
+        />
+      </div>
 
-          <div>
-            <label className="block text-sm font-medium text-gray-700 mb-1">
-              Date début
-            </label>
-            <input
-              type="date"
-              value={startDate}
-              onChange={e => {
-                setStartDate(e.target.value);
-                setPage(1);
-              }}
-              className="w-full border border-gray-300 rounded px-3 py-2"
-            />
-          </div>
+      {/* Filtres avancés */}
+      <OrderFilters
+        filters={filters}
+        onFilterChange={handleFilterChange}
+        onReset={handleResetFilters}
+      />
 
-          <div>
-            <label className="block text-sm font-medium text-gray-700 mb-1">
-              Date fin
-            </label>
-            <input
-              type="date"
-              value={endDate}
-              onChange={e => {
-                setEndDate(e.target.value);
-                setPage(1);
-              }}
-              className="w-full border border-gray-300 rounded px-3 py-2"
-            />
-          </div>
+      {/* Tableau des commandes */}
+      <OrdersTable
+        orders={orders}
+        onStatusChange={updateOrderStatus}
+        onViewInvoice={handleViewInvoice}
+        isLoading={loading}
+      />
 
-          <div className="flex items-end">
+      {/* Pagination */}
+      {totalPages > 1 && (
+        <div className="mt-6 flex items-center justify-between">
+          <div className="text-sm text-gray-700">
+            Page {page} sur {totalPages}
+          </div>
+          <div className="flex space-x-2">
             <button
-              onClick={() => {
-                setStatusFilter("");
-                setStartDate("");
-                setEndDate("");
-                setPage(1);
-              }}
-              className="w-full bg-gray-500 text-white px-4 py-2 rounded hover:bg-gray-600"
+              onClick={() => setPage(Math.max(1, page - 1))}
+              disabled={page === 1}
+              className="px-3 py-2 border border-gray-300 rounded text-sm disabled:opacity-50 disabled:cursor-not-allowed hover:bg-gray-50"
             >
-              Réinitialiser
+              Précédent
+            </button>
+            <button
+              onClick={() => setPage(Math.min(totalPages, page + 1))}
+              disabled={page === totalPages}
+              className="px-3 py-2 border border-gray-300 rounded text-sm disabled:opacity-50 disabled:cursor-not-allowed hover:bg-gray-50"
+            >
+              Suivant
             </button>
           </div>
         </div>
-      </div>
-
-      {loading ? (
-        <div className="text-center py-8">Chargement des commandes...</div>
-      ) : (
-        <>
-          {/* Liste des commandes */}
-          <div className="bg-white rounded-lg shadow overflow-hidden">
-            <div className="overflow-x-auto">
-              <table className="min-w-full divide-y divide-gray-200">
-                <thead className="bg-gray-50">
-                  <tr>
-                    <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                      Commande
-                    </th>
-                    <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                      Client
-                    </th>
-                    <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                      Montant
-                    </th>
-                    <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                      Statut
-                    </th>
-                    <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                      Date
-                    </th>
-                    <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                      Actions
-                    </th>
-                  </tr>
-                </thead>
-                <tbody className="bg-white divide-y divide-gray-200">
-                  {orders.map(order => (
-                    <tr key={order._id} className="hover:bg-gray-50">
-                      <td className="px-6 py-4 whitespace-nowrap">
-                        <div className="text-sm font-medium text-gray-900">
-                          #{order._id.slice(-8)}
-                        </div>
-                        <div className="text-sm text-gray-500">
-                          {order.orderItems.length} article(s)
-                        </div>
-                      </td>
-                      <td className="px-6 py-4 whitespace-nowrap">
-                        <div className="text-sm font-medium text-gray-900">
-                          {order.user?.name || "Utilisateur inconnu"}
-                        </div>
-                        <div className="text-sm text-gray-500">
-                          {order.user?.email || "-"}
-                        </div>
-                      </td>
-                      <td className="px-6 py-4 whitespace-nowrap">
-                        <div className="text-sm font-medium text-gray-900">
-                          {order.totalPrice.toFixed(2)} €
-                        </div>
-                        <div className="text-sm text-gray-500">
-                          {order.isPaid ? "Payée" : "Non payée"}
-                        </div>
-                      </td>
-                      <td className="px-6 py-4 whitespace-nowrap">
-                        <span
-                          className={`inline-flex px-2 py-1 text-xs font-semibold rounded-full ${getStatusColor(
-                            order.orderStatus
-                          )}`}
-                        >
-                          {order.orderStatus}
-                        </span>
-                      </td>
-                      <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
-                        {formatDate(order.createdAt)}
-                      </td>
-                      <td className="px-6 py-4 whitespace-nowrap text-sm font-medium">
-                        <select
-                          value={order.orderStatus}
-                          onChange={e =>
-                            updateOrderStatus(order._id, e.target.value)
-                          }
-                          className="border border-gray-300 rounded px-2 py-1 text-sm"
-                        >
-                          <option value="pending">En attente</option>
-                          <option value="processing">En cours</option>
-                          <option value="shipped">Expédiée</option>
-                          <option value="delivered">Livrée</option>
-                          <option value="cancelled">Annulée</option>
-                        </select>
-                      </td>
-                    </tr>
-                  ))}
-                </tbody>
-              </table>
-            </div>
-          </div>
-
-          {/* Pagination */}
-          {totalPages > 1 && (
-            <div className="mt-6 flex items-center justify-between">
-              <div className="text-sm text-gray-700">
-                Page {page} sur {totalPages}
-              </div>
-              <div className="flex space-x-2">
-                <button
-                  onClick={() => setPage(Math.max(1, page - 1))}
-                  disabled={page === 1}
-                  className="px-3 py-2 border border-gray-300 rounded text-sm disabled:opacity-50 disabled:cursor-not-allowed hover:bg-gray-50"
-                >
-                  Précédent
-                </button>
-                <button
-                  onClick={() => setPage(Math.min(totalPages, page + 1))}
-                  disabled={page === totalPages}
-                  className="px-3 py-2 border border-gray-300 rounded text-sm disabled:opacity-50 disabled:cursor-not-allowed hover:bg-gray-50"
-                >
-                  Suivant
-                </button>
-              </div>
-            </div>
-          )}
-        </>
       )}
     </div>
   );

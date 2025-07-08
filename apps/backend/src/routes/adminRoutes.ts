@@ -3,6 +3,8 @@ import {
   getDashboardStats,
   getOrders,
   updateOrderStatus,
+  exportOrdersCSV,
+  exportOrdersPDF,
   loginAdmin,
   getUsers,
   updateUserRole,
@@ -22,6 +24,8 @@ router.use(admin);
 // Routes du tableau de bord
 router.get("/stats", getDashboardStats);
 router.get("/orders", getOrders);
+router.get("/orders/export/csv", exportOrdersCSV);
+router.get("/orders/export/pdf", exportOrdersPDF);
 router.put("/orders/:id", updateOrderStatus);
 
 // Routes de gestion des utilisateurs

@@ -1,18 +1,24 @@
-import {
+const {
   seedUsers,
   seedCategories,
   seedProducts,
   runAll,
   clearAll,
-} from "../../utils/seeder";
-import User from "../../models/User.model";
-import Category from "../../models/Category.model";
-import Product from "../../models/Product.model";
+} = require("../../utils/seeder");
+
+const mongoose = require("mongoose");
 
 describe("Seeder Utility", () => {
+  let User, Category, Product;
+
   beforeAll(async () => {
-    // Utiliser la connexion MongoDB déjà établie dans setup.ts
-    // Pas besoin de créer une nouvelle connexion
+    // Attendre que la connexion MongoDB soit établie
+    await new Promise(resolve => setTimeout(resolve, 100));
+
+    // Importer les modèles après la connexion
+    User = mongoose.model("User");
+    Category = mongoose.model("Category");
+    Product = mongoose.model("Product");
   });
 
   afterAll(async () => {
@@ -36,12 +42,12 @@ describe("Seeder Utility", () => {
       const customerUser = users.find(user => user.role === "customer");
 
       expect(adminUser).toBeDefined();
-      expect(adminUser?.email).toBe("admin@beyana.com");
-      expect(adminUser?.firstName).toBe("Admin");
+      expect(adminUser.email).toBe("admin@beyana.com");
+      expect(adminUser.firstName).toBe("Admin");
 
       expect(customerUser).toBeDefined();
-      expect(customerUser?.email).toBe("customer@beyana.com");
-      expect(customerUser?.firstName).toBe("Customer");
+      expect(customerUser.email).toBe("customer@beyana.com");
+      expect(customerUser.firstName).toBe("Customer");
     });
 
     it("should not create duplicate users", async () => {

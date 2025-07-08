@@ -34,9 +34,7 @@ export default function RootLayout({
         <AdminAuthProvider>
           <div className="min-h-screen">
             <AdminNavbar />
-            <main className="max-w-7xl mx-auto py-6">
-              {children}
-            </main>
+            <main className="max-w-7xl mx-auto py-6">{children}</main>
           </div>
         </AdminAuthProvider>
       </body>
