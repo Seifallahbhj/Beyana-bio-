@@ -1,4 +1,5 @@
 import React from "react";
+import Link from "next/link";
 
 interface Order {
   _id: string;
@@ -181,14 +182,12 @@ const OrdersTable: React.FC<OrdersTableProps> = ({
                     >
                       Facture
                     </button>
-                    <button
-                      onClick={() =>
-                        window.open(`/admin/orders/${order._id}`, "_blank")
-                      }
+                    <Link
+                      href={`/admin/orders/${order._id}`}
                       className="text-green-600 hover:text-green-900"
                     >
                       Détails
-                    </button>
+                    </Link>
                   </div>
                 </td>
               </tr>

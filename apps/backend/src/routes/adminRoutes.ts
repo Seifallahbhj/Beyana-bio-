@@ -9,6 +9,7 @@ import {
   getUsers,
   updateUserRole,
   deleteUser,
+  getOrderById,
 } from "../controllers/AdminController";
 import { protect, admin } from "../middleware/authMiddleware";
 
@@ -27,6 +28,7 @@ router.get("/orders", getOrders);
 router.get("/orders/export/csv", exportOrdersCSV);
 router.get("/orders/export/pdf", exportOrdersPDF);
 router.put("/orders/:id", updateOrderStatus);
+router.get("/orders/:id", getOrderById);
 
 // Routes de gestion des utilisateurs
 router.get("/users", getUsers);

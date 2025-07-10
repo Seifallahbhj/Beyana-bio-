@@ -8,6 +8,8 @@
 
 - **Stabilisation complète** : tous les tests passent (backend, frontend, admin)
 - **Linting** : aucun blocage, code conforme aux standards TypeScript strict, ESLint, Prettier
+- **Mocks robustes** : Stripe, Cloudinary, multer, etc. corrigés pour des tests fiables
+- **Logs de debug supprimés** : base de code propre, prête pour la production
 - **Exports Admin** : fonctionnalités d'export des commandes en CSV et PDF robustes et professionnelles
 - **Codebase** : robuste, maintenable, prête pour de nouvelles features ou la mise en production
 
@@ -186,18 +188,34 @@ BEYANA est une plateforme e-commerce premium spécialisée dans les produits bio
 
 ## 🚧 Reste à faire / À développer
 
-- Finaliser les fonctionnalités avancées du dashboard admin (gestion utilisateurs, analytics, édition commandes)
-- Ajouter des tests end-to-end (E2E) pour les parcours critiques
-- Améliorer l'expérience utilisateur (UX/UI) sur toutes les apps
-- Mettre en place la documentation technique complète (API, dev, déploiement)
-- Ajouter des workflows CI/CD avancés (préprod, déploiement auto)
-- Optimiser la performance (backend, frontend)
-- Internationalisation (i18n)
-- Accessibilité (a11y)
-- Intégration d'une vraie gestion de newsletter
-- Amélioration du responsive et du design mobile
-- Ajouter des pages de navigation manquantes (about, contact, help, categories)
-- Finaliser la gestion des erreurs et des logs
+### PHASE 1 : Finalisation Admin Dashboard (Priorité Haute)
+
+1. Gestion avancée des commandes (statuts, filtres, exports, notifications, retours/remboursements)
+2. Gestion des utilisateurs (liste, rôles, support, historique commandes)
+3. Analytics avancés (graphes, rapports, analyse comportement)
+4. Notifications (alertes admin/clients)
+5. Optimisations UX/UI (animations, feedback, accessibilité, responsive)
+6. Tests E2E et documentation utilisateur
+
+### PHASE 2 : Frontend & Global
+
+- Finaliser les pages de navigation manquantes (/about, /contact, /help, /categories)
+- Implémenter la logique de soumission newsletter
+- Améliorer l'accessibilité (a11y), i18n, responsive, gestion des erreurs/logs
+- Migration images Cloudinary, fallback robustes
+- Augmenter la couverture des tests frontend
+
+### PHASE 3 : Backend & Technique
+
+- Améliorer la couverture sur UserController, ProductController, OrderController
+- Documentation API, monitoring, sécurité avancée
+- Maintenir la qualité (tests, lint, CI/CD), documenter toute nouvelle feature
+
+---
+
+## 👉 Prochaine étape recommandée
+
+**Finaliser la gestion avancée des commandes dans le dashboard admin** (UI + API, filtres, statuts, notifications, exports, retours/remboursements).
 
 ---
 

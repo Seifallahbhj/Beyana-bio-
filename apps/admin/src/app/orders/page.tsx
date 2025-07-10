@@ -44,6 +44,9 @@ interface Filters {
   startDate: string;
   endDate: string;
   search: string;
+  user: string;
+  email: string;
+  name: string;
 }
 
 export default function OrdersPage() {
@@ -56,6 +59,9 @@ export default function OrdersPage() {
     startDate: "",
     endDate: "",
     search: "",
+    user: "",
+    email: "",
+    name: "",
   });
 
   const fetchOrders = useCallback(async () => {
@@ -64,9 +70,17 @@ export default function OrdersPage() {
       const token = localStorage.getItem("adminToken");
       let url = `/admin/orders?page=${page}&limit=10`;
 
-      if (filters.status) url += `&status=${filters.status}`;
-      if (filters.startDate) url += `&startDate=${filters.startDate}`;
-      if (filters.endDate) url += `&endDate=${filters.endDate}`;
+      if (filters.status)
+        url += `&status=${encodeURIComponent(filters.status)}`;
+      if (filters.startDate)
+        url += `&startDate=${encodeURIComponent(filters.startDate)}`;
+      if (filters.endDate)
+        url += `&endDate=${encodeURIComponent(filters.endDate)}`;
+      if (filters.user) url += `&user=${encodeURIComponent(filters.user)}`;
+      if (filters.email) url += `&email=${encodeURIComponent(filters.email)}`;
+      if (filters.name) url += `&name=${encodeURIComponent(filters.name)}`;
+      if (filters.search)
+        url += `&search=${encodeURIComponent(filters.search)}`;
 
       const res = await apiService.get(url, {
         headers: { Authorization: `Bearer ${token}` },
@@ -99,6 +113,9 @@ export default function OrdersPage() {
       startDate: "",
       endDate: "",
       search: "",
+      user: "",
+      email: "",
+      name: "",
     });
     setPage(1);
   };
@@ -157,13 +174,14 @@ export default function OrdersPage() {
     if (filters.status) params.append("status", filters.status);
     if (filters.startDate) params.append("startDate", filters.startDate);
     if (filters.endDate) params.append("endDate", filters.endDate);
+    if (filters.user) params.append("user", filters.user);
+    if (filters.email) params.append("email", filters.email);
+    if (filters.name) params.append("name", filters.name);
+    if (filters.search) params.append("search", filters.search);
 
-    // Ajoute un fallback si la variable d'env est undefined
     const apiUrl =
       process.env.NEXT_PUBLIC_API_URL || "http://localhost:5000/api";
-    console.log("API URL PDF:", apiUrl); // Debug
     const url = `${apiUrl}/admin/orders/export/pdf?${params.toString()}`;
-    console.log("Full PDF URL:", url); // Debug
 
     fetch(url, {
       headers: {

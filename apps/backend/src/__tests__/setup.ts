@@ -88,6 +88,9 @@ jest.mock("multer", () => {
   return mockMulter;
 });
 
+// Map globale pour simuler la correspondance paymentIntentId <-> orderId dans le mock Stripe
+const paymentIntentOrderMap = new Map();
+
 // Mock Stripe
 jest.mock("stripe", () => {
   // Stripe constructeur mocké
@@ -115,7 +118,7 @@ jest.mock("stripe", () => {
             currency: params.currency,
             status: "requires_payment_method",
             metadata: params.metadata || {},
-            object: "payment_intent",
+            receipt_email: params.receipt_email || undefined,
           });
         }),
         retrieve: jest.fn().mockImplementation(id => {
@@ -134,45 +137,46 @@ jest.mock("stripe", () => {
       },
       webhooks: {
         constructEvent: jest.fn().mockImplementation((payload, signature) => {
-          console.log(
-            "[MOCK STRIPE] constructEvent called with:",
-            payload,
-            signature
-          );
-
           // Vérifier si la signature est invalide
           if (signature === "t=123456,v1=invalid_signature_hash") {
             const error = new Error("Invalid signature");
             throw error;
           }
 
-          let event = {
-            id: "evt_test_generic",
-            type: "payment_intent.succeeded",
-            data: {
-              object: {
-                id: "pi_test_1234567890",
-                status: "succeeded",
-                metadata: {
-                  orderId: new mongoose.Types.ObjectId().toHexString(),
-                },
-                receipt_email: "test@example.com",
-                object: "payment_intent",
-              },
-            },
-          };
+          // Vérifier si la signature est invalide (pour le test "unknown webhook verification error")
+          if (signature === "invalid_signature") {
+            throw "Unknown error";
+          }
+
+          // Parser le payload Buffer en JSON
+          let eventData;
           try {
-            const parsed = JSON.parse(
-              Buffer.isBuffer(payload) ? payload.toString("utf8") : payload
-            );
-            // Remplace tout l'objet par ce qui vient du payload
-            if (parsed && parsed.data && parsed.data.object) {
-              event.data.object = parsed.data.object;
+            if (Buffer.isBuffer(payload)) {
+              eventData = JSON.parse(payload.toString());
+            } else {
+              eventData = payload;
             }
           } catch {
-            // ignore
+            // Si le parsing échoue, retourner un événement par défaut
+            eventData = {
+              id: "evt_test_generic",
+              type: "payment_intent.succeeded",
+              data: {
+                object: {
+                  id: "pi_test_1234567890",
+                  status: "succeeded",
+                  metadata: {
+                    orderId: new mongoose.Types.ObjectId().toHexString(),
+                  },
+                  receipt_email: "test@example.com",
+                  object: "payment_intent",
+                },
+              },
+            };
           }
-          return event;
+
+          // Retourner exactement les données du payload
+          return eventData;
         }),
       },
     };
@@ -182,9 +186,6 @@ jest.mock("stripe", () => {
 // Configuration de la base de données de test
 let mongoServer: MongoMemoryServer;
 
-// Map pour synchroniser paymentIntentId <-> orderId
-const paymentIntentOrderMap = new Map();
-
 beforeAll(async () => {
   // Démarrer le serveur MongoDB en mémoire
   mongoServer = await MongoMemoryServer.create();
@@ -192,23 +193,25 @@ beforeAll(async () => {
 
   // Connecter à la base de données de test
   await mongoose.connect(mongoUri);
-  console.log("✅ Base de données de test connectée");
+  // console.log("✅ Base de données de test connectée");
 });
 
 afterAll(async () => {
   // Fermer la connexion et arrêter le serveur
   await mongoose.disconnect();
   await mongoServer.stop();
-  console.log("✅ Base de données de test déconnectée");
+  // console.log("✅ Base de données de test déconnectée");
 });
 
-// Nettoyer la base de données entre les tests
+// Nettoyer la base de données et la Map Stripe entre les tests
 beforeEach(async () => {
   const collections = mongoose.connection.collections;
   for (const key in collections) {
     const collection = collections[key];
     await collection.deleteMany({});
   }
+  // Nettoyer la Map Stripe
+  paymentIntentOrderMap.clear();
 });
 
 // Augmenter le timeout pour les tests

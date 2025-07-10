@@ -4,61 +4,61 @@
 
 PASS src/__tests__/Sample.test.tsx
   Sample test
-    √ affiche un texte de test (80 ms)
+    √ affiche un texte de test (30 ms)
 
 PASS src/__tests__/components/ProductCard.test.tsx
   ProductCard Component
     Rendering
-      √ should render product information correctly (213 ms)
-      √ should display stock status correctly when in stock (242 ms)
-      √ should display out of stock status when stock is 0 (36 ms)
-      √ should display low stock warning when stock is low (23 ms)
-      √ should render product attributes as badges (37 ms)
+      √ should render product information correctly (75 ms)
+      √ should display stock status correctly when in stock (62 ms)
+      √ should display out of stock status when stock is 0 (9 ms)
+      √ should display low stock warning when stock is low (7 ms)
+      √ should render product attributes as badges (8 ms)
     Cart Interactions
-      √ should show add to cart button when product is not in cart (44 ms)
-      √ should call addToCart when add button is clicked (67 ms)
-      √ should disable add to cart button when out of stock (21 ms)
+      √ should show add to cart button when product is not in cart (20 ms)
+      √ should call addToCart when add button is clicked (25 ms)
+      √ should disable add to cart button when out of stock (13 ms)
     Wishlist functionality
-      √ should show add to wishlist button when product is not in wishlist (40 ms)
-      √ should call addToWishlist API when wishlist button is clicked (74 ms)
-      √ should handle wishlist API errors gracefully (65 ms)
+      √ should show add to wishlist button when product is not in wishlist (18 ms)
+      √ should call addToWishlist API when wishlist button is clicked (37 ms)
+      √ should handle wishlist API errors gracefully (25 ms)
     Price Display
-      √ should format price correctly with euro symbol (24 ms)
-      √ should handle decimal prices correctly (18 ms)
-      √ should handle zero price correctly (33 ms)
+      √ should format price correctly with euro symbol (10 ms)
+      √ should handle decimal prices correctly (8 ms)
+      √ should handle zero price correctly (8 ms)
     Edge Cases
-      √ should handle product without images gracefully (20 ms)
-      √ should handle product without attributes gracefully (22 ms)
-      √ should handle missing category gracefully (15 ms)
+      √ should handle product without images gracefully (8 ms)
+      √ should handle product without attributes gracefully (12 ms)
+      √ should handle missing category gracefully (6 ms)
 
 PASS src/__tests__/hooks/useProducts.test.tsx
   useProducts Hook
     useProducts with default parameters
-      √ should fetch products successfully (98 ms)
-      √ should handle API errors (92 ms)
-      √ should show loading state initially (9 ms)
+      √ should fetch products successfully (81 ms)
+      √ should handle API errors (72 ms)
+      √ should show loading state initially (3 ms)
     useProducts with filters
-      √ should fetch products with search filter (78 ms)
-      √ should fetch products with category filter (77 ms)
-      √ should fetch products with price range filter (208 ms)
-      √ should fetch products with multiple filters (131 ms)
+      √ should fetch products with search filter (75 ms)
+      √ should fetch products with category filter (79 ms)
+      √ should fetch products with price range filter (78 ms)
+      √ should fetch products with multiple filters (79 ms)
     useProducts pagination
-      √ should handle pagination correctly (73 ms)
-      √ should use default pagination when not specified (102 ms)
+      √ should handle pagination correctly (81 ms)
+      √ should use default pagination when not specified (78 ms)
     useProducts error handling
-      √ should handle network errors (85 ms)
-      √ should handle API response errors (115 ms)
-      √ should handle malformed API responses (96 ms)
+      √ should handle network errors (81 ms)
+      √ should handle API response errors (78 ms)
+      √ should handle malformed API responses (80 ms)
     useProducts caching
-      √ should cache results and avoid duplicate requests (158 ms)
-      √ should make new requests for different parameters (149 ms)
+      √ should cache results and avoid duplicate requests (153 ms)
+      √ should make new requests for different parameters (158 ms)
     useProducts edge cases
-      √ should handle empty product list (76 ms)
-      √ should handle very large product lists (77 ms)
-      √ should handle special characters in filters (77 ms)
+      √ should handle empty product list (80 ms)
+      √ should handle very large product lists (78 ms)
+      √ should handle special characters in filters (81 ms)
 
 Test Suites: 3 passed, 3 total
 Tests:       35 passed, 35 total
 Snapshots:   0 total
-Time:        6.425 s
+Time:        4.652 s
 Ran all test suites.

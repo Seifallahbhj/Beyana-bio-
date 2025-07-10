@@ -5,6 +5,10 @@ interface OrderExportButtonsProps {
     status?: string;
     startDate?: string;
     endDate?: string;
+    user?: string;
+    email?: string;
+    name?: string;
+    search?: string;
   };
   onExportCSV?: () => void;
   onExportPDF: () => void;
@@ -21,6 +25,10 @@ const OrderExportButtons: React.FC<OrderExportButtonsProps> = ({
     if (filters.status) params.append("status", filters.status);
     if (filters.startDate) params.append("startDate", filters.startDate);
     if (filters.endDate) params.append("endDate", filters.endDate);
+    if (filters.user) params.append("user", filters.user);
+    if (filters.email) params.append("email", filters.email);
+    if (filters.name) params.append("name", filters.name);
+    if (filters.search) params.append("search", filters.search);
     return params.toString();
   };
 

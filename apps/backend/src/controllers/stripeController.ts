@@ -167,104 +167,117 @@ export const handleWebhook = asyncHandler(
       case "payment_intent.succeeded": {
         const paymentIntent = event.data.object as Stripe.PaymentIntent;
 
-        // console.log(`PaymentIntent successful: ${paymentIntent.id}`);
+        // LOG DEBUG
+        // console.log("[DEBUG STRIPE] payment_intent.succeeded, id:", paymentIntent.id, paymentIntent.metadata);
 
         const order = await Order.findOne({
           paymentIntentId: paymentIntent.id,
         });
 
+        // console.log("[DEBUG STRIPE] Order found by paymentIntentId:", order ? order._id : "NOT FOUND");
+
         if (order) {
           if (order.isPaid) {
-            // console.log(`Order ${order._id} already paid. Skipping update.`);
+            // console.log("[DEBUG STRIPE] Order already paid, skipping");
             res.status(200).json({ received: true });
             return;
           }
 
+          // console.log("[DEBUG STRIPE] Updating order to paid");
           order.isPaid = true;
           order.paidAt = new Date();
           order.paymentResult = {
             id: paymentIntent.id,
             status: paymentIntent.status,
             update_time: new Date().toISOString(),
-            email_address: paymentIntent.receipt_email || "",
+            email_address: paymentIntent.receipt_email ?? undefined,
           };
           order.orderStatus = "Processing";
+          await order.save();
+          // console.log("[DEBUG STRIPE] Order updated successfully");
 
-          const _updatedOrder = await order.save();
-          // console.log(
-          //   `Order ${_updatedOrder._id} updated to paid and processing.`
-          // );
-        } else {
-          // console.warn(
-          //   `Order not found for PaymentIntent ID: ${paymentIntent.id}. Looking for order in metadata.`
-          // );
-          if (paymentIntent.metadata && paymentIntent.metadata.orderId) {
-            const orderFromMetadata = await Order.findById(
-              paymentIntent.metadata.orderId
-            );
-            if (orderFromMetadata) {
-              if (orderFromMetadata.isPaid) {
-                // console.log(
-                //   `Order ${orderFromMetadata._id} already paid via metadata. Skipping update.`
-                // );
-                res.status(200).json({ received: true });
-                return;
-              }
-              orderFromMetadata.isPaid = true;
-              orderFromMetadata.paidAt = new Date();
-              orderFromMetadata.paymentResult = {
-                id: paymentIntent.id,
-                status: paymentIntent.status,
-                update_time: new Date().toISOString(),
-                email_address: paymentIntent.receipt_email || "",
-              };
-              orderFromMetadata.orderStatus = "Processing";
-              await orderFromMetadata.save();
-              // console.log(
-              //   `Order ${orderFromMetadata._id} updated to paid and processing via metadata.`
-              // );
-            } else {
-              // console.error(
-              //   `Order not found from metadata for PaymentIntent ID: ${paymentIntent.id}, Order ID: ${paymentIntent.metadata.orderId}`
-              // );
-            }
-          } else {
-            // console.error(
-            //   `Order not found for PaymentIntent ID: ${paymentIntent.id} and no orderId in metadata.`
-            // );
+          res.status(200).json({ received: true });
+          return;
+        }
+
+        // Fallback: try to find order by metadata
+        if (paymentIntent.metadata?.orderId) {
+          // console.log("[DEBUG STRIPE] Trying to find order by metadata.orderId:", paymentIntent.metadata.orderId);
+          const orderByMetadata = await Order.findById(
+            paymentIntent.metadata.orderId
+          );
+          // console.log("[DEBUG STRIPE] Order found by metadata:", orderByMetadata ? orderByMetadata._id : "NOT FOUND");
+
+          if (orderByMetadata && !orderByMetadata.isPaid) {
+            // console.log("[DEBUG STRIPE] Updating order by metadata to paid");
+            orderByMetadata.isPaid = true;
+            orderByMetadata.paidAt = new Date();
+            orderByMetadata.paymentResult = {
+              id: paymentIntent.id,
+              status: paymentIntent.status,
+              update_time: new Date().toISOString(),
+              email_address: paymentIntent.receipt_email ?? undefined,
+            };
+            orderByMetadata.orderStatus = "Processing";
+            await orderByMetadata.save();
+            // console.log("[DEBUG STRIPE] Order by metadata updated successfully");
           }
         }
+
+        res.status(200).json({ received: true });
         break;
       }
       case "payment_intent.payment_failed": {
-        const failedPaymentIntent = event.data.object as Stripe.PaymentIntent;
+        const paymentIntent = event.data.object as Stripe.PaymentIntent;
 
-        // console.log(`PaymentIntent failed: ${failedPaymentIntent.id}`);
+        // LOG DEBUG
+        // console.log("[DEBUG STRIPE] payment_intent.payment_failed, id:", paymentIntent.id, paymentIntent.metadata);
 
-        let failedOrder = await Order.findOne({
-          paymentIntentId: failedPaymentIntent.id,
+        const order = await Order.findOne({
+          paymentIntentId: paymentIntent.id,
         });
 
-        if (
-          !failedOrder &&
-          failedPaymentIntent.metadata &&
-          failedPaymentIntent.metadata.orderId
-        ) {
-          failedOrder = await Order.findById(
-            failedPaymentIntent.metadata.orderId
-          );
+        // console.log("[DEBUG STRIPE] Order found by paymentIntentId (failed):", order ? order._id : "NOT FOUND");
+
+        if (order) {
+          // console.log("[DEBUG STRIPE] Updating order to payment failed");
+          order.orderStatus = "Payment Failed";
+          order.paymentResult = {
+            id: paymentIntent.id,
+            status: paymentIntent.status,
+            update_time: new Date().toISOString(),
+            email_address: paymentIntent.receipt_email ?? undefined,
+          };
+          await order.save();
+          // console.log("[DEBUG STRIPE] Order updated to payment failed successfully");
+
+          res.status(200).json({ received: true });
+          return;
         }
 
-        if (failedOrder) {
-          failedOrder.orderStatus = "Payment Failed";
-          failedOrder.isPaid = false;
-          await failedOrder.save();
-          // console.log(`Order ${failedOrder._id} marked as payment failed.`);
-        } else {
-          // console.warn(
-          //   `Order not found for failed PaymentIntent ID: ${failedPaymentIntent.id}. No orderId found in metadata.`
-          // );
+        // Fallback: try to find order by metadata
+        if (paymentIntent.metadata?.orderId) {
+          // console.log("[DEBUG STRIPE] Trying to find order by metadata.orderId (failed):", paymentIntent.metadata.orderId);
+          const orderByMetadata = await Order.findById(
+            paymentIntent.metadata.orderId
+          );
+          // console.log("[DEBUG STRIPE] Order found by metadata (failed):", orderByMetadata ? orderByMetadata._id : "NOT FOUND");
+
+          if (orderByMetadata) {
+            // console.log("[DEBUG STRIPE] Updating order by metadata to payment failed");
+            orderByMetadata.orderStatus = "Payment Failed";
+            orderByMetadata.paymentResult = {
+              id: paymentIntent.id,
+              status: paymentIntent.status,
+              update_time: new Date().toISOString(),
+              email_address: paymentIntent.receipt_email ?? undefined,
+            };
+            await orderByMetadata.save();
+            // console.log("[DEBUG STRIPE] Order by metadata updated to payment failed successfully");
+          }
         }
+
+        res.status(200).json({ received: true });
         break;
       }
       case "charge.succeeded": {

@@ -23,20 +23,6 @@ declare module "express" {
   }
 }
 
-// Log pour vérifier le chargement des variables
-// console.log(
-//   "Stripe Secret Key:",
-//   process.env.STRIPE_SECRET_KEY ? "✅ Loaded" : "❌ Not loaded"
-// );
-// console.log(
-//   "Stripe Publishable Key:",
-//   process.env.STRIPE_PUBLISHABLE_KEY ? "✅ Loaded" : "❌ Not loaded"
-// );
-// console.log(
-//   "Stripe Webhook Secret:",
-//   process.env.STRIPE_WEBHOOK_SECRET ? "✅ Loaded" : "❌ Not loaded"
-// );
-
 const app: Express = express();
 const port = process.env.PORT || 5000;
 const mongoUri = process.env.MONGO_URI;
@@ -99,19 +85,11 @@ app.use((err: Error, req: Request, res: Response, _next: NextFunction) => {
 // AJOUT: Fonction de connexion à MongoDB
 const connectDB = async () => {
   if (!mongoUri) {
-    // console.error("MONGO_URI is not defined in .env file");
     process.exit(1); // Arrêter l'application si l'URI n'est pas définie
   }
   try {
     await mongoose.connect(mongoUri);
-    // console.log("[database]: MongoDB Connected...");
-  } catch (err: unknown) {
-    if (err instanceof Error) {
-      // console.error("[database]: MongoDB connection error:", err.message);
-    } else {
-      // console.error("[database]: MongoDB connection error:", err);
-    }
-    // Quitter le processus avec une erreur
+  } catch {
     process.exit(1);
   }
 };
@@ -121,9 +99,7 @@ const startServer = async () => {
   if (process.env.NODE_ENV !== "test") {
     await connectDB(); // Se connecter à la DB avant de démarrer le serveur
   }
-  app.listen(port, () => {
-    // console.log(`[server]: Server is running at http://localhost:${port}`);
-  });
+  app.listen(port, () => {});
 };
 
 if (process.env.NODE_ENV !== "test") {
